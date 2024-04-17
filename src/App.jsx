@@ -4,7 +4,6 @@ import React from 'react';
 import Sidebar from './components/Sidebar';
 import ProfileP from './components/ProfileP';
 import ContentP from './components/ContentP';
-import './App.css';
 
 
 import Chat from './Pages/Chat'
@@ -16,16 +15,10 @@ function App() {
 
     <div className="dashboard">
       <Sidebar/>
-     <>
-      <Chat />
-    </>
       {/* <ContentP/> */}
     </div>
     
   );
-
-   
-  )
 
 }
 
