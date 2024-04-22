@@ -1,17 +1,25 @@
-import './App.css'
+
+import React from 'react';
+// import { FaHeart } from 'react-icons/fa';
+import Sidebar from './components/Sidebar';
+import ProfileP from './components/ProfileP';
+import ContentP from './components/ContentP';
+
 
 import Chat from './Pages/Chat'
+
 
 function App() {
   
   return (
+
     <div className="dashboard">
       <Sidebar/>
       {/* <ContentP/> */}
-      <Chat />
     </div>
-  )
+    
+  );
 
 }
 
-export default App
+export default App;
