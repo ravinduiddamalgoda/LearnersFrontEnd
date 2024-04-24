@@ -1,44 +1,76 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import instance from '../../api';
 
-const API_URL = ''
+const API_URL = 'http://localhost:3000';
 
-// Register user
-const register = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+const registerInstructor = async (user) => {
+  const response = await axios.post(`${API_URL}/register/instructor`, user);
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data.userId))
+    localStorage.setItem('user', response.data.userId)
     Cookies.set('accessToken', response.data.accessToken, { expires: 7 });
-    Cookies.set('refreshToken', response.data.refreshToken, { expires: 14 });
   }
 
-  return response.data
-}
+  return response.data;
+};
 
-// Login user
-const login = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+const registerStudent = async (user) => {
+  const response = await axios.post(`${API_URL}/register/student`, user);
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data.userId))
-    
-    Cookies.set('accessToken', response.data.accessToken);
-    Cookies.set('refreshToken', response.data.refreshToken);
+    localStorage.setItem('user', response.data.userId)
+    Cookies.set('accessToken', response.data.accessToken, { expires: 7 });
   }
 
-  return response.data
-}
+  return response.data;
+};
 
-// Logout user
+const adminLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/login/admin`, user);
+
+  if (response.data) {
+    localStorage.setItem('user', response.data.userId)
+    Cookies.set('accessToken', response.data.accessToken);
+  }
+
+  return response.data;
+};
+
+const instructorLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/login/instructor`, user);
+
+  if (response.data) {
+    localStorage.setItem('user', response.data.userId)
+    Cookies.set('accessToken', response.data.accessToken);
+  }
+
+  return response.data;
+};
+
+const studentLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/login/student`, user);
+
+  if (response.data) {
+    localStorage.setItem('user', response.data.userId)
+    Cookies.set('accessToken', response.data.accessToken);
+  }
+
+  return response.data;
+};
+
 const logout = () => {
-  localStorage.removeItem('user')
-}
+  Cookies.remove('accessToken');
+};
 
 const authService = {
-  register,
+  registerInstructor,
+  registerStudent,
+  adminLogin,
+  instructorLogin,
+  studentLogin,
   logout,
-  login,
-}
+};
 
-export default authService
+export default authService;
+
