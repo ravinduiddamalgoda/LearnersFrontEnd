@@ -87,7 +87,7 @@ const UserSideBar = () => {
           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-blue-200"
         >
           <AiOutlineStock className="w-6 h-6 text-gray-500" />
-          {!isExpanded ? null : <span className="ml-3" onClick={()=> Navigate("/userdetail")}>User Profile</span>}
+          {!isExpanded ? null : <span className="ml-3" onClick={()=> Navigate("/editUser")}>User Profile</span>}
         </a>
       </nav>
 
