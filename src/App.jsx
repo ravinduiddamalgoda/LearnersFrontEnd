@@ -21,6 +21,7 @@ import PhysicalTrainingHome from './Pages/PhysicalTrainingHome';
 export default function App() {
   
   return (
+
     // <div className="dashboard">
     //   <Sidebar/>
     //   {/* <ContentP/> */}
@@ -48,6 +49,7 @@ export default function App() {
           </Routes>
 
     </BrowserRouter>
+
   )
 
 }
