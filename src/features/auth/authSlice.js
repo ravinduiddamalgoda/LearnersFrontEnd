@@ -1,93 +1,223 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import authService from './authService'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import authService from './authService';
 
-const user = JSON.parse(localStorage.getItem('user'))
+const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
   user: user ? user : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isAdmin: false,
+  isInstructor: false,
+  isStudent: false,
   message: '',
-}
+};
 
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+export const adminRegister = createAsyncThunk(
+  'auth/registerAdmin',
+  async (user, thunkAPI) => {
     try {
-      return await authService.register(user)
+      const response = await authService.registerInstructor(user);
+      return response;
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        (error.response && error.response.data && error.response.data.message) ||
         error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+export const instructorRegister = createAsyncThunk(
+  'auth/instructorRegister',
+  async (user, thunkAPI) => {
+    try {
+      const response = await authService.registerInstructor(user);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const studentRegister = createAsyncThunk(
+  'auth/studentRegister',
+  async (user, thunkAPI) => {
+    try {
+      const response = await authService.registerStudent(user);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const adminLogin = createAsyncThunk(
+  'auth/adminLogin', 
+  async (user, thunkAPI) => {
   try {
-    return await authService.login(user)
+    const response = await authService.adminLogin(user);
+    return response;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
-      error.toString()
-    return thunkAPI.rejectWithValue(message)
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
   }
-})
+});
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-  authService.logout()
-})
+export const instructorLogin = createAsyncThunk(
+  'auth/instructorLogin',
+  async (user, thunkAPI) => {
+    try {
+      const response = await authService.instructorLogin(user);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const studentLogin = createAsyncThunk(
+  'auth/studentLogin', 
+  async (user, thunkAPI) => {
+  try {
+    const response = await authService.studentLogin(user);
+    return response;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const logout = createAsyncThunk(
+  'auth/logout', 
+  async () => {
+  authService.logout();
+});
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     reset: (state) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = '';
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(register.pending, (state) => {
-        state.isLoading = true
+      .addCase(adminRegister.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(register.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload.userId
+      .addCase(adminRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
       })
-      .addCase(register.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-        state.user = null
+      .addCase(adminRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
-      .addCase(login.pending, (state) => {
-        state.isLoading = true
+      .addCase(instructorRegister.pending, (state) => {
+        state.isLoading = true;
       })
-      .addCase(login.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload.userId
+      .addCase(instructorRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
       })
-      .addCase(login.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-        state.user = null
+      .addCase(instructorRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(studentRegister.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(studentRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(studentRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(adminLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(adminLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isAdmin = true;
+        state.user = action.payload.user;
+      })
+      .addCase(adminLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(instructorLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(instructorLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isInstructor = true;
+        state.user = action.payload.user;
+      })
+      .addCase(instructorLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(studentLogin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(studentLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isStudent = true;
+        state.user = action.payload.user;
+      })
+      .addCase(studentLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.user = null
-      })
+        state.isAdmin = false;
+        state.isInstructor = false;
+        state.isStudent = false;
+        state.user = null;
+      });
   },
-})
+});
 
-export const { reset } = authSlice.actions
-export default authSlice.reducer
+export const { reset } = authSlice.actions;
+export default authSlice.reducer;
+
