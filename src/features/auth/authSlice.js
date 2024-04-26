@@ -14,6 +14,22 @@ const initialState = {
   message: '',
 };
 
+export const adminRegister = createAsyncThunk(
+  'auth/registerAdmin',
+  async (user, thunkAPI) => {
+    try {
+      const response = await authService.registerInstructor(user);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const instructorRegister = createAsyncThunk(
   'auth/instructorRegister',
   async (user, thunkAPI) => {
@@ -111,20 +127,29 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(adminRegister.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(adminRegister.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(adminRegister.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(instructorRegister.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(instructorRegister.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.isInstructor = true;
-        state.user = action.payload.userId;
       })
       .addCase(instructorRegister.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.user = null;
       })
       .addCase(studentRegister.pending, (state) => {
         state.isLoading = true;
@@ -132,8 +157,6 @@ export const authSlice = createSlice({
       .addCase(studentRegister.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.isStudent = true;
-        state.user = action.payload.userId;
       })
       .addCase(studentRegister.rejected, (state, action) => {
         state.isLoading = false;
@@ -148,7 +171,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isAdmin = true;
-        state.user = action.payload.userId;
+        state.user = action.payload.user;
       })
       .addCase(adminLogin.rejected, (state, action) => {
         state.isLoading = false;
@@ -163,7 +186,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isInstructor = true;
-        state.user = action.payload.userId;
+        state.user = action.payload.user;
       })
       .addCase(instructorLogin.rejected, (state, action) => {
         state.isLoading = false;
@@ -178,7 +201,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isStudent = true;
-        state.user = action.payload.userId;
+        state.user = action.payload.user;
       })
       .addCase(studentLogin.rejected, (state, action) => {
         state.isLoading = false;
