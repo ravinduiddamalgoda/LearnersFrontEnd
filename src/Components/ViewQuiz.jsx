@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import instance from '../api';
+import { useNavigate } from 'react-router-dom';
+
 
 const ViewQuiz = () => {
     const [quizzes, setQuizzes] = useState([]);
-
+    const navigate = useNavigate();
     // Fetch quizzes from the backend
     useEffect(() => {
         fetchQuizzes();
@@ -11,7 +14,7 @@ const ViewQuiz = () => {
 
     const fetchQuizzes = async () => {
         try {
-            const response = await axios.get('http://your-backend-url/api/quizzes');
+            const response = await instance.get('/api/quizzes');
             setQuizzes(response.data);
         } catch (error) {
             console.error('Failed to fetch quizzes:', error);
