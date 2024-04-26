@@ -16,6 +16,7 @@ import UpdateLicensePkg from './Pages/UpdatePackage';
 import ScrollToTop from './Components/ScrollToTop';
 
 import Chat from './Pages/Chat'
+import PhysicalTrainingHome from './Pages/PhysicalTrainingHome';
 
 export default function App() {
   
@@ -43,8 +44,9 @@ export default function App() {
               <Route path='/admin-edit-profile' element={<AdminEditProfile />} />
             </Route>
             <Route path='/add-review' element={<AddReview />} />
-            
+            <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
           </Routes>
+
     </BrowserRouter>
   )
 

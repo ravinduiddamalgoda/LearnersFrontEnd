@@ -15,7 +15,12 @@ export default {
     //   blue: '#002B93',
     //   white: '#ffffff',
     // },
-    extend: {},
+    extend: {
+      width: {
+        '5p': '10%',   
+        '15p': '20%', 
+      },
+    },
   },
   plugins: [
       flowbite.plugin(),
