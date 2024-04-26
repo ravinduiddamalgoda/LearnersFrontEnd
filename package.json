@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
-    "@reduxjs/toolkit": "^trainingSesssion2.2.3",
+    "@reduxjs/toolkit": "^2.2.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "axios": "^1.6.7",
