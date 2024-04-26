@@ -6,9 +6,7 @@ function App() {
   
   return (
     <div className="dashboard">
-      <Sidebar/>
-      {/* <ContentP/> */}
-      <Chat />
+      
     </div>
   )
 
