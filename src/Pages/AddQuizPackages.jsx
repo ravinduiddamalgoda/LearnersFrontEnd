@@ -32,16 +32,23 @@ const AddQuizPackages = () => {
 
     const handlePackageCreation = async () => {
         try {
-            const response = await instance.post('/quizPackages/add', { quizPackage: packageName, quizzes: selectedQuizzes });
+            if(selectedQuizzes.length === 0){
+                alert('No quizzes available to create a package');
+                throw new Error('No quizzes available to create a package');
+            }
+            const response = await instance.post('/quizPackage/add', { quizPackage: packageName, quizzes: selectedQuizzes });
             alert('Package created successfully');
-            navigate('/'); // Navigate to package listing or dashboard
+            navigate('/quizmain'); 
         } catch (error) {
-            console.error('Error creating quiz package:', error);
+            console.error('Error creating quiz package:', error); 
+            alert('Error creating quiz package');
         }
     };
 
     const handleQuizSelection = (quizId) => {
+        
         setSelectedQuizzes(prev => [...prev, quizId]);
+        alert('Quiz added to package');
     };
 
     return (
