@@ -17,6 +17,8 @@ import ScrollToTop from './Components/ScrollToTop';
 
 import Chat from './Pages/Chat'
 import PhysicalTrainingHome from './Pages/PhysicalTrainingHome';
+import QuizMain from './Pages/QuizMain';
+import ViewQuiz from './Components/ViewQuiz';
 
 export default function App() {
   
@@ -45,6 +47,8 @@ export default function App() {
             </Route>
             <Route path='/add-review' element={<AddReview />} />
             <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
+            <Route path='/quizmain' element={<QuizMain/>}/>
+            <Route path='/viewQuizes' element={<ViewQuiz/>}/>
           </Routes>
 
     </BrowserRouter>

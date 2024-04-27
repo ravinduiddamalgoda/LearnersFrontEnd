@@ -9,23 +9,32 @@ const ViewQuiz = () => {
     const navigate = useNavigate();
     // Fetch quizzes from the backend
     useEffect(() => {
-        fetchQuizzes();
-    }, []);
+        const fetchQuizzes = async () => {
+            try {
+                const response = await instance.get('/quiz/getAllQuizes');
+                // setQuizzes(response.data);
+                // console.log(response.data);
+                if(response?.data){
+                    setQuizzes(response.data);
+                }
+                // setQuizzes(response.data);
+                console.log(quizzes);
+            } catch (error) {
+                console.error('Failed to fetch quizzes:', error);
+            }
+        };
 
-    const fetchQuizzes = async () => {
-        try {
-            const response = await instance.get('/api/quizzes');
-            setQuizzes(response.data);
-        } catch (error) {
-            console.error('Failed to fetch quizzes:', error);
-        }
-    };
+        fetchQuizzes();
+    }, [quizzes]);
+
+   
 
     const handleDelete = async (quizId) => {
         try {
-            await axios.delete(`http://your-backend-url/api/quizzes/${quizId}`);
+            await instance.delete(`/quiz/deleteQuiz/${quizId}`);
             // Update the UI by filtering out the deleted quiz
-            setQuizzes(quizzes.filter(quiz => quiz.id !== quizId));
+            setQuizzes(quizzes.filter(quiz => quiz._id !== quizId));
+            alert('Quiz deleted successfully');
         } catch (error) {
             console.error('Failed to delete quiz:', error);
         }
@@ -38,23 +47,26 @@ const ViewQuiz = () => {
     };
 
     return (
-        <div className="space-y-4 p-4">
-            {quizzes.map(quiz => (
+        <div className="p-4 overflow-y-scroll h-screen mt-4 " >
+             {quizzes.length != 0 && quizzes.map(quiz => (
                 <div key={quiz.id} className="bg-gray-100 p-4 rounded shadow">
-                    <h3 className="text-lg font-semibold">{quiz.question}</h3>
+                    <h3 className="text-lg font-semibold">{quiz?.quiz}</h3>
                     <ul className="list-disc ml-5">
-                        {Object.entries(quiz.answers).map(([key, value]) => (
-                            <li key={key}>{value}</li>
-                        ))}
+
+
+                        <li>{quiz?.answer1}</li>
+                        <li>{quiz?.answer2}</li>
+                        <li>{quiz?.answer3}</li>
+                        <li>{quiz?.answer4}</li>
                     </ul>
-                    <button onClick={() => handleDelete(quiz.id)} className="text-red-500 hover:text-red-700 mr-2">
+                    <button onClick={() => handleDelete(quiz._id)} className="text-red-500 hover:text-red-700 mr-2">
                         Delete
                     </button>
-                    <button onClick={() => handleUpdate(quiz.id)} className="text-blue-500 hover:text-blue-700">
+                    <button onClick={() => handleUpdate(quiz._id)} className="text-blue-500 hover:text-blue-700">
                         Update
                     </button>
                 </div>
-            ))}
+            ))} 
         </div>
     );
 };
