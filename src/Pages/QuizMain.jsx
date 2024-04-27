@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import ViewQuiz from '../Components/ViewQuiz';
 
 const quizSchema = Yup.object().shape({
     question: Yup.string()
@@ -19,14 +21,18 @@ const quizSchema = Yup.object().shape({
 });
 
 const QuizMain = () => {
-
+    const navigate = useNavigate();
     
     const handleSubmit = (values) => {
         
     };
 
+    const navigatQuiz = ()=>{
+        navigate('/viewQuizes');
+    }
     return (
-        <div className="max-w-xl mx-auto mt-10 px-4 py-5 bg-white shadow-md rounded-lg">
+        <div className='flex flex-row'>
+            <div className="w-96 mx-auto mt-10 px-4 py-5 bg-white shadow-md rounded-lg">
             <h1 className="text-xl font-semibold text-gray-700 text-center">Add New Quiz</h1>
             <Formik
                 initialValues={{
@@ -77,6 +83,14 @@ const QuizMain = () => {
                 )}
             </Formik>
         </div>
+            <div className='my-auto'>
+                {/* <button className='p-4 bg-blue-500 text-white text-xl' onClick={()=>{}}>
+                    View All Quizes
+                </button> */}
+                <ViewQuiz/>
+            </div>
+        </div>
+       
     );
 };
 
