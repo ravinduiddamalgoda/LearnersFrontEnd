@@ -1,44 +1,66 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import instance from '../../api';
 
-const API_URL = ''
+const API_URL = 'http://localhost:3000';
 
-// Register user
-const register = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+const registerAdmin = async (user) => {
+  const response = await axios.post(`${API_URL}/api/auth/adminRegistration`, user);
+  return response.data;
+};
+const registerInstructor = async (user) => {
+  const response = await axios.post(`${API_URL}/api/auth/instructor-registration`, user);
+  return response.data;
+};
+
+const registerStudent = async (user) => {
+  const response = await axios.post(`${API_URL}/user/registerUser`, user);
+  return response.data;
+};
+
+const adminLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/api/auth/signin`, user);
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data.userId))
-    Cookies.set('accessToken', response.data.accessToken, { expires: 7 });
-    Cookies.set('refreshToken', response.data.refreshToken, { expires: 14 });
+    localStorage.setItem('user', response.data.user)
   }
 
-  return response.data
-}
+  return response.data;
+};
 
-// Login user
-const login = async (userData) => {
-  const response = await axios.post(API_URL, userData)
+const instructorLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/api/auth/signin`, user);
 
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data.userId))
-    
-    Cookies.set('accessToken', response.data.accessToken);
-    Cookies.set('refreshToken', response.data.refreshToken);
+    localStorage.setItem('user', response.data.user)
   }
 
-  return response.data
-}
+  return response.data;
+};
 
-// Logout user
+const studentLogin = async (user) => {
+  const response = await axios.post(`${API_URL}/user/login`, user);
+
+  if (response.data) {
+    localStorage.setItem('user', response.data.user)
+  }
+
+  return response.data;
+};
+
 const logout = () => {
-  localStorage.removeItem('user')
-}
+  Cookies.remove('access_token');
+};
 
 const authService = {
-  register,
+  registerAdmin,
+  registerInstructor,
+  registerStudent,
+  adminLogin,
+  instructorLogin,
+  studentLogin,
   logout,
-  login,
-}
+};
 
-export default authService
+export default authService;
+
