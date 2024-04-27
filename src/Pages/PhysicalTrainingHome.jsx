@@ -3,9 +3,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import TrainingSide from "../Components/TrainingSide";
 import ViewTrainings from "../Components/ViewTrainings";
+import instance from "../api";  // Ensure this import points to a configured Axios instance
 
 // Validation Schema using Yup
 const validationSchema = Yup.object({
+  instructorID: Yup.string().required("Instructor ID is required"),
   date: Yup.date()
     .required("Date is required")
     .min(new Date(), "Date cannot be in the past"),
@@ -14,40 +16,53 @@ const validationSchema = Yup.object({
     .required("Location is required")
     .min(2, "Location must be at least 2 characters long"),
   vehicleID: Yup.string().required("Vehicle ID is required"),
-  maxParticipants: Yup.number()
+  maxCount: Yup.number()
     .required("Maximum number of participants is required")
     .min(1, "At least one participant is required")
     .max(100, "Cannot exceed 100 participants"),
 });
 
-// useEffect(()=> {
-//     const fetchVehicleData = async () => {
-
-//     }
-
-// } , [])
-
 const PhysicalTrainingHome = () => {
-    
-
-    // useEffect(()=> {
-    //     const fetchSessionData = async () => {
-
-    //     }
-    // } , [])
-
+  const [vehicles, setVehicles] = useState([]);
+  const [update , setUpdate] = useState(false);
+  // Fetch vehicles data from the backend
+  useEffect(() => {
+    const fetchVehicleData = async () => {
+      try {
+        const response = await instance.get("/vehicle");  // Ensure correct endpoint
+        setVehicles(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching vehicles:", error);
+      }
+    };
+    fetchVehicleData();
+  }, [vehicles]);
 
   const formik = useFormik({
     initialValues: {
+      instructorID: "",
       date: "",
       time: "",
       location: "",
-      maxParticipants: "",
+      vehicleID: "",
+      maxCount: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-      // Implement submission logic here
+      try {
+        const data = instance.post("/pts/add", values).then(response => {
+          alert("Training session scheduled successfully");
+          setUpdate(!update)
+          // Add navigation or state update logic here if needed
+        });
+        if(!data) {
+          throw new Error("Failed to schedule training session");
+        } 
+      } catch (error) {
+        console.error("Error scheduling training session:", error);
+        alert("Error scheduling training session");
+      }
     },
   });
 
@@ -55,17 +70,29 @@ const PhysicalTrainingHome = () => {
     <div className="w-full flex flex-row">
       <TrainingSide />
       <div className="mx-2">
-        <div className="bg-gray-100 p-4 mt-6 ">
+        <div className="bg-gray-100 p-4 mt-6">
           <h1 className="font-bold text-gray-800 text-center text-3xl">
             Welcome to Training Sessions
           </h1>
-          <div className="flex flex-col">
+          <div className="flex flex-row">
             <div className="mx-10 w-72">
-              <h1>Add a Training Session </h1>
-              <form
-                onSubmit={formik.handleSubmit}
-                className="space-y-6 mx-auto"
-              >
+              <h1>Add a Training Session</h1>
+              <form onSubmit={formik.handleSubmit} className="space-y-6 mx-auto">
+                {/* Instructor ID Input */}
+                <label htmlFor="instructorID">Instructor ID</label>
+                <input
+                  id="instructorID"
+                  name="instructorID"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.instructorID}
+                  className="border p-1 rounded w-full"
+                />
+                {formik.touched.instructorID && formik.errors.instructorID ? (
+                  <div className="text-red-500 text-xs">{formik.errors.instructorID}</div>
+                ) : null}
+  
+                {/* Date Input */}
                 <label htmlFor="date">Date</label>
                 <input
                   id="date"
@@ -76,11 +103,10 @@ const PhysicalTrainingHome = () => {
                   className="border p-1 rounded w-full"
                 />
                 {formik.touched.date && formik.errors.date ? (
-                  <div className="text-red-500 text-xs">
-                    {formik.errors.date}
-                  </div>
+                  <div className="text-red-500 text-xs">{formik.errors.date}</div>
                 ) : null}
-
+  
+                {/* Time Input */}
                 <label htmlFor="time">Time</label>
                 <input
                   id="time"
@@ -91,11 +117,10 @@ const PhysicalTrainingHome = () => {
                   className="border p-1 rounded w-full"
                 />
                 {formik.touched.time && formik.errors.time ? (
-                  <div className="text-red-500 text-xs">
-                    {formik.errors.time}
-                  </div>
+                  <div className="text-red-500 text-xs">{formik.errors.time}</div>
                 ) : null}
-
+  
+                {/* Location Input */}
                 <label htmlFor="location">Location</label>
                 <input
                   id="location"
@@ -106,48 +131,61 @@ const PhysicalTrainingHome = () => {
                   className="border p-1 rounded w-full"
                 />
                 {formik.touched.location && formik.errors.location ? (
-                  <div className="text-red-500 text-xs">
-                    {formik.errors.location}
-                  </div>
+                  <div className="text-red-500 text-xs">{formik.errors.location}</div>
                 ) : null}
+  
+                {/* Vehicle ID Dropdown */}
                 <label htmlFor="vehicleID">Vehicle ID</label>
-                <select>
-                  <option value="car">Car</option>
-                  <option value="bus">Bus</option>
+                <select
+                  id="vehicleID"
+                  name="vehicleID"
+                  onChange={formik.handleChange}
+                  value={formik.values.vehicleID}
+                  className="border p-1 rounded w-full">
+                  <option value="">Select a Vehicle</option>
+                  {vehicles.map((vehicle) => (
+                    <option key={vehicle._id} value={vehicle.vehicleNO}>
+                      {vehicle.vehicleNO}
+                    </option>
+                  ))}
                 </select>
-                <br />
-                <label htmlFor="maxParticipants">Max Participants</label>
+                {formik.touched.vehicleID && formik.errors.vehicleID ? (
+                  <div className="text-red-500 text-xs">{formik.errors.vehicleID}</div>
+                ) : null}
+  
+                {/* Max Participants Input */}
+                <label htmlFor="maxCount">Max Participants</label>
                 <input
-                  id="maxParticipants"
-                  name="maxParticipants"
+                  id="maxCount"
+                  name="maxCount"
                   type="number"
                   onChange={formik.handleChange}
-                  value={formik.values.maxParticipants}
+                  value={formik.values.maxCount}
                   className="border p-1 rounded w-full"
                 />
-                {formik.touched.maxParticipants &&
-                formik.errors.maxParticipants ? (
-                  <div className="text-red-500 text-xs">
-                    {formik.errors.maxParticipants}
-                  </div>
+                {formik.touched.maxCount && formik.errors.maxCount ? (
+                  <div className="text-red-500 text-xs">{formik.errors.maxCount}</div>
                 ) : null}
-
+  
+                {/* Submit Button */}
                 <button
                   type="submit"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  disabled={formik.isSubmitting}
                 >
                   Schedule Session
                 </button>
               </form>
             </div>
-            <div className="flex ">
-                <ViewTrainings/>
+            <div className="flex flex-col mx-auto ">
+              <ViewTrainings update={update} />
             </div>
+            
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default PhysicalTrainingHome;
