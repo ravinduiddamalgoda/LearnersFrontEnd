@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import instance from '../api';
 
 
 const ViewTrainings = () => {
@@ -9,9 +10,12 @@ const ViewTrainings = () => {
         fetchTrainings();
     }, []);
 
+    const Instructor = localStorage.getItem('user');
+    const insID = Instructor?.InstructorID || 0;
+    console.log(insID);
     const fetchTrainings = async () => {
         try {
-            const response = await axios.get('/api/trainings');
+            const response = await instance.get(`pts/instructor/${insID}`);
             setTrainings(response.data);
         } catch (error) {
             console.error('Error fetching trainings:', error);

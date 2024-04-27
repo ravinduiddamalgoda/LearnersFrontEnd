@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import TrainingSide from "../Components/TrainingSide";
+import ViewTrainings from "../Components/ViewTrainings";
 
 // Validation Schema using Yup
 const validationSchema = Yup.object({
@@ -29,11 +30,11 @@ const validationSchema = Yup.object({
 const PhysicalTrainingHome = () => {
     
 
-    useEffect(()=> {
-        const fetchSessionData = async () => {
+    // useEffect(()=> {
+    //     const fetchSessionData = async () => {
 
-        }
-    } , [])
+    //     }
+    // } , [])
 
 
   const formik = useFormik({
@@ -140,9 +141,7 @@ const PhysicalTrainingHome = () => {
               </form>
             </div>
             <div className="flex ">
-                <div className="bg-">
-
-                </div>
+                <ViewTrainings/>
             </div>
           </div>
         </div>
