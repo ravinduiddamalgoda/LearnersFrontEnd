@@ -3,9 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import ViewQuiz from '../Components/ViewQuiz';
+import instance from '../api';
 
 const quizSchema = Yup.object().shape({
-    question: Yup.string()
+    quiz: Yup.string()
         .required('A question is required'),
     answer1: Yup.string()
         .required('Answer 1 is required'),
@@ -23,8 +24,16 @@ const quizSchema = Yup.object().shape({
 const QuizMain = () => {
     const navigate = useNavigate();
     
-    const handleSubmit = (values) => {
-        
+    const handleSubmit = async (values) => {
+        try{
+            await instance.post('/quiz/addQuiz', values);
+            alert('Quiz added successfully');
+            console.log(values);
+
+        }catch(error){
+            console.error('Failed to add quiz:', error);
+            alert('Failed to add quiz')
+        }
     };
 
     const navigatQuiz = ()=>{
@@ -36,7 +45,7 @@ const QuizMain = () => {
             <h1 className="text-xl font-semibold text-gray-700 text-center">Add New Quiz</h1>
             <Formik
                 initialValues={{
-                    question: '',
+                    quiz: '',
                     answer1: '',
                     answer2: '',
                     answer3: '',
@@ -45,18 +54,20 @@ const QuizMain = () => {
                 }}
                 validationSchema={quizSchema}
                 onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
+                    // setTimeout(() => {
+                    //     alert(JSON.stringify(values, null, 2));
+                    //     setSubmitting(false);
+                    // }, 400);
+
+                    handleSubmit(values);
                 }}
             >
                 {({ isSubmitting }) => (
                     <Form className="space-y-4">
                         <div>
-                            <label htmlFor="question" className="block text-sm font-medium text-gray-700">Question:</label>
-                            <Field type="text" name="question" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                            <ErrorMessage name="question" component="div" className="text-red-500 text-xs italic" />
+                            <label htmlFor="quiz" className="block text-sm font-medium text-gray-700">Question:</label>
+                            <Field type="text" name="quiz" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                            <ErrorMessage name="quiz" component="div" className="text-red-500 text-xs italic" />
                         </div>
                         {['answer1', 'answer2', 'answer3', 'answer4'].map((item, index) => (
                             <div key={item}>

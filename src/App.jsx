@@ -28,6 +28,8 @@ import DeleteVehicle from './Pages/VehicleManagement/DeleteVehicle';
 import HomeRevenue from './Pages/Revenue/RevenuePage';
 import RevenuePage from './Pages/Revenue/RevenuePage';
 import VehicleHome from './Pages/VehicleManagement/VehicleHome';
+import UpdateQuiz from './Components/UpdateQuiz';
+import AddQuizPackages from './Pages/AddQuizPackages';
 
 
 export default function App() {
@@ -61,6 +63,8 @@ export default function App() {
             <Route path= '/chat' element ={<ChatSection />}/>  
             <Route path='/quizmain' element={<QuizMain/>}/>
             <Route path='/viewQuizes' element={<ViewQuiz/>}/>
+            <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
+            <Route path='/addQuizPackage' element={<AddQuizPackages/>}/>
 
             <Route path='/vehicles/home' element = {<VehicleHome/>} />
             <Route path='/vehicles/details/:id' element={<ShowVehicle/>} />

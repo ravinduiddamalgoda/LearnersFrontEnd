@@ -43,7 +43,7 @@ const ViewQuiz = () => {
     const handleUpdate = (quizId) => {
         // Placeholder for update functionality
         // Usually this would navigate to a different component or open a modal
-        console.log('Update:', quizId);
+        navigate(`/updateQuiz/${quizId}`);
     };
 
     return (
