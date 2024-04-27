@@ -30,6 +30,9 @@ import RevenuePage from './Pages/Revenue/RevenuePage';
 import VehicleHome from './Pages/VehicleManagement/VehicleHome';
 import UpdateQuiz from './Components/UpdateQuiz';
 import AddQuizPackages from './Pages/AddQuizPackages';
+import UpdatePTS from './Pages/UpdatePTS';
+import StudentEnrollments from './Pages/StudentEnrollments';
+import ViewStudentEnrollment from './Pages/ViewStudentEnrollments';
 
 
 export default function App() {
@@ -60,7 +63,11 @@ export default function App() {
             </Route>
             <Route path='/add-review' element={<AddReview />} />
             <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
+            <Route path="/updateTraining" element={<UpdatePTS/>}/>
+            <Route path='/ptsEnroll' element={<StudentEnrollments />} />
+            <Route path ='/viewptsStudent' element = {<ViewStudentEnrollment/>}/>
             <Route path= '/chat' element ={<ChatSection />}/>  
+            
             <Route path='/quizmain' element={<QuizMain/>}/>
             <Route path='/viewQuizes' element={<ViewQuiz/>}/>
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
