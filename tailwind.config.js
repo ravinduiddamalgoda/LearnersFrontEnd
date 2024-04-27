@@ -8,13 +8,13 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    // fontFamily: {
-    //   poppins: ['Poppins', 'sans-serif'],
-    // },
-    // colors: {
-    //   blue: '#002B93',
-    //   white: '#ffffff',
-    // },
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+    },
+    colors: {
+      blue: '#002B93',
+      white: '#ffffff',
+    },
     extend: {
       width: {
         '5p': '10%',   
