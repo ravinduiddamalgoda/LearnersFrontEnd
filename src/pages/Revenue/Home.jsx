@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 //import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import BackButton from '../../components/BackButton';
 import Spinner from '../../components/Spinner';
 
@@ -46,14 +47,42 @@ const RevenuePage = () => {
 
   const generatePDF = () => {
     // Generate PDF content
-    const pdf = new jsPDF('p', 'pt', 'letter');
-
-    pdf.text('Monthly Revenue Report', 40, 50);
-    pdf.text(`Total Revenue: $${totalRevenue.toFixed(2)}`, 40, 80);
-
+    const doc = new jsPDF('p', 'pt', 'letter');
+    
+    // Add title
+    doc.setFontSize(18);
+    doc.text('Monthly Revenue Report', 40, 50);
+    
+    // Add total revenue
+    doc.setFontSize(12);
+    doc.text(`Total Revenue: Rs.${totalRevenue.toFixed(2)}`, 40, 80);
+  
+    // Add table headers
+    const tableHeaders = [['Payment ID', 'Payment Type', 'Date', 'Student Name', 'Remarks', 'Amount']];
+  
+    // Add table data
+    const tableData = filteredByDate.map(payment => [
+      payment.paymentID,
+      payment.paymentType,
+      new Date(payment.dateTime).toLocaleDateString(),
+      payment.studentName,
+      payment.remarks,
+      payment.Amount.toFixed(2)
+    ]);
+  
+    // Add table
+    doc.autoTable({
+      startY: 100,
+      head: tableHeaders,
+      body: tableData,
+      theme: 'grid',
+      styles: { fontSize: 10, cellPadding: 5 }
+    });
+  
     // Save PDF
-    pdf.save('monthly_revenue_report.pdf');
+    doc.save('monthly_revenue_report.pdf');
   };
+  
 
   return (
     <div className='p-4'>
