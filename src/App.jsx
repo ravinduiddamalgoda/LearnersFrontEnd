@@ -33,7 +33,8 @@ import AddQuizPackages from './Pages/AddQuizPackages';
 import UpdatePTS from './Pages/UpdatePTS';
 import StudentEnrollments from './Pages/StudentEnrollments';
 import ViewStudentEnrollment from './Pages/ViewStudentEnrollments';
-
+import UserLogin from './Pages/UserLogin';
+import UserRegister from './Pages/UserRegister';
 
 export default function App() {
   
@@ -51,6 +52,8 @@ export default function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/sign-in' element={<SignIn />} />
+            <Route path='/user/sign-in' element={<UserLogin />} />
+            <Route path='/user/sign-up' element={<UserRegister />} />
             <Route path='/sign-up' element={<SignUp/>} />
             <Route element={<PrivateRoute />} >
               <Route path='/admin-dashboard' element={<AdminDashboard />} />
