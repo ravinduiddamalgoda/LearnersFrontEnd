@@ -1,101 +1,130 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserRegister() {
-    const [uname, setuname] = useState('');
-    const [pswrd, setpswrd] = useState('');
-    const [email, setemail] = useState('');
-    const [phone, setphone] = useState('');
-    const [address, setaddress] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [gender, setGender] = useState('');
-    const navigate = useNavigate();
+const RegisterForm = () => {
+  const navigate = useNavigate();
 
-    const handleSubmit = async () => {
-        try {
-            const response = await axios.post('http://localhost:3000/user/registerUser', {
-                username: uname,
-                password: pswrd,
-                email: email,
-                phoneNumber: phone,
-                address: address,
-                gender: gender,
-                firstName: firstName,
-                lastName: lastName
+  return (
+    <div className="max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Register</h1>
+      <Formik
+        initialValues={{
+          username: '',
+          password: '',
+          email: '',
+          phoneNumber: '',
+          address: '',
+          gender: '',
+          firstName: '',
+          lastName: ''
+        }}
+        validationSchema={Yup.object({
+          username: Yup.string().required('Required'),
+          password: Yup.string().required('Required'),
+          email: Yup.string().email('Invalid email address').required('Required'),
+          phoneNumber: Yup.string()
+            .matches(/^947\d{8}$/, 'Phone number must start with 947 and be 11 characters long')
+            .required('Required'),
+          address: Yup.string().required('Required'),
+          gender: Yup.string().required('Required'),
+          firstName: Yup.string().required('Required'),
+          lastName: Yup.string().required('Required')
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          axios
+            .post('http://localhost:3000/user/registerUser', values)
+            .then(response => {
+              console.log(response.data);
+              alert('Registration done!!');
+              navigate('/user/interface');
+            })
+            .catch(error => {
+              console.error('Error registering:', error);
+              alert('Error in the registration!!');
+            })
+            .finally(() => {
+              setSubmitting(false);
             });
-
-            localStorage.setItem('user', JSON.stringify(response.data));
-
-            //const user = JSON.parse(localStorage.getItem('user'));
-
-            //console.log("User registered successfully:", user);
-
-            navigate('/')
-
-        } catch (error) {
-            console.error("Registration failed:", error);
-        }
-    };
-
-    return (
-        <div>
-            <div className='font-poppins'>
-                <div className='text-[30px] font-[500] mb-[30px]'>Sign up</div>
-                <div>
-                    <div className='flex flex-col justify-center items-center gap-[20px]'>
-                        <input
-                            type='text'
-                            placeholder='Username'
-                            onChange={(e) => { setuname(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            onChange={(e) => { setpswrd(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='email'
-                            placeholder='Email'
-                            onChange={(e) => { setemail(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='tel'
-                            placeholder='Phone Number'
-                            onChange={(e) => { setphone(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='text'
-                            placeholder='Address'
-                            onChange={(e) => { setaddress(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='text'
-                            placeholder='First Name'
-                            onChange={(e) => { setFirstName(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <input
-                            type='text'
-                            placeholder='Last name'
-                            onChange={(e) => { setLastName(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none' />
-                        <select
-                            onChange={(e) => { setGender(e.target.value); }}
-                            className='w-[500px] py-[10px] rounded-full bg-transparent outline-none'>
-                            <option value='' disabled>Select Gender</option>
-                            <option value='Male'>Male</option>
-                            <option value='Female'>Female</option>
-                            <option value='Other'>Other</option>
-                        </select>
-                        <input
-                            type='button'
-                            value='Submit'
-                            onClick={handleSubmit}
-                            className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-black rounded-full bg-transparent outline-none' />
-                    </div>
-                </div>
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form className="space-y-4">
+            <div>
+              <label htmlFor="username" className="block font-semibold">
+                Username
+              </label>
+              <Field type="text" name="username" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="username" className="text-red-500" />
             </div>
-        </div>
-    );
-}
+            <div>
+              <label htmlFor="password" className="block font-semibold">
+                Password
+              </label>
+              <Field type="password" name="password" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="password" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="email" className="block font-semibold">
+                Email
+              </label>
+              <Field type="email" name="email" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="email" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="phoneNumber" className="block font-semibold">
+                Phone Number
+              </label>
+              <Field type="tel" name="phoneNumber" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="phoneNumber" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="address" className="block font-semibold">
+                Address
+              </label>
+              <Field type="text" name="address" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="address" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="gender" className="block font-semibold">
+                Gender
+              </label>
+              <Field as="select" name="gender" className="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </Field>
+              <ErrorMessage name="gender" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="firstName" className="block font-semibold">
+                First Name
+              </label>
+              <Field type="text" name="firstName" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="firstName" className="text-red-500" />
+            </div>
+            <div>
+              <label htmlFor="lastName" className="block font-semibold">
+                Last Name
+              </label>
+              <Field type="text" name="lastName" className="w-full border border-gray-300 rounded px-3 py-2" />
+              <ErrorMessage name="lastName" className="text-red-500" />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default RegisterForm;
