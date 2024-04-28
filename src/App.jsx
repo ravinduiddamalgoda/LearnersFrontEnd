@@ -35,6 +35,7 @@ import StudentEnrollments from './Pages/StudentEnrollments';
 import ViewStudentEnrollment from './Pages/ViewStudentEnrollments';
 import UserLogin from './Pages/UserLogin';
 import UserRegister from './Pages/UserRegister';
+import UserprofileInterface from './Components/UserprofileInterface';
 
 export default function App() {
   
@@ -82,6 +83,8 @@ export default function App() {
             <Route path='/vehicles/edit/:id' element={<EditVehicle/>} />
             <Route path='/vehicles/delete/:id' element={<DeleteVehicle/>} />
             <Route path='/revenue' element={<HomeRevenue/>} />
+
+            <Route path='/user/interface' element={<UserprofileInterface/>}/>
           </Routes>
 
     </BrowserRouter>
