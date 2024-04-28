@@ -69,7 +69,7 @@ export default function App() {
             <Route path= '/chat' element ={<ChatSection />}/>  
             
             <Route path='/quizmain' element={<QuizMain/>}/>
-            <Route path='/viewQuizes' element={<ViewQuiz/>}/>
+            {/* <Route path='/viewQuizes' element={<ViewQuiz/>}/> */}
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
             <Route path='/addQuizPackage' element={<AddQuizPackages/>}/>
 
