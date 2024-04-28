@@ -41,6 +41,7 @@ const ViewStudentEnrollment = () => {
                     const response = await instance.get(`/enrollPTS/${selectedPTSID}`);
                     // Ensure that the data is in array format
                     setEnrollments(Array.isArray(response.data) ? response.data : []);
+                    // console.log(response.data , 'data fetch');
                     fetchStudentNames(Array.isArray(response.data) ? response.data : []);
                 } catch (error) {
                     console.error("Error fetching enrollments:", error);
@@ -57,7 +58,8 @@ const ViewStudentEnrollment = () => {
         for (let enroll of enrollments) {
             try {
                 const response = await instance.get(`/user/profile/${enroll.userID}`);
-                names[enroll.userID] = response.data.name || 'Name not available';  // Assuming response.data.name holds the name
+                console.log(response)
+                names[enroll.userID] = response.data.firstName || 'Name not available';  // Assuming response.data.name holds the name
             } catch (error) {
                 console.error("Error fetching student data for userID:", enroll.userID, error);
                 names[enroll.userID] = 'Unknown'; // Default name if fetch fails
@@ -114,13 +116,13 @@ const ViewStudentEnrollment = () => {
                 {selectedPTSID && (
                     <div className="mt-4">
                         <h2 className="font-semibold text-xl">Enrolled Students</h2>
-                        {enrollments.map(enroll => (
+                    {enrollments.map(enroll => (
                             <div key={enroll._id} className="bg-gray-100 p-3 rounded shadow my-2">
                                 <p>Student Name: {studentNames[enroll.userID] || 'Loading...'}</p>
                                 <p>Status: {enroll.status}</p>
                                 <button 
                                     className="text-red-500 hover:text-red-700"
-                                    onClick={() => handleDeleteEnrollment(enroll.userID)}
+                                    onClick={() => handleDeleteEnrollment(enroll._id)}
                                 >
                                     Delete Enrollment
                                 </button>
