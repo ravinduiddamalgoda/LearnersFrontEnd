@@ -78,7 +78,7 @@ const EditVehicle = () => {
     axios.put(`http://localhost:3000/vehicle/update/${id}`, data)
       .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/vehicles/home');
       })
       .catch((error) => {
         setLoading(false);

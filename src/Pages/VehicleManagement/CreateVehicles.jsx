@@ -22,6 +22,7 @@ const CreateVehicles = () => {
     return regex.test(value);
   };
 
+
   const handleSaveVehicle = async () => {
     // Validate all fields
     if (!vehicleID || !vehicleNO || !vehicleType || !transmissionType || !fuelType || !studentCnt) {
@@ -49,6 +50,8 @@ const CreateVehicles = () => {
       fuelType,
       availability, 
       studentCnt,
+      
+      
     };
     setLoading(true);
   
@@ -63,7 +66,7 @@ const CreateVehicles = () => {
       }).then((result) => {
         // Navigate to the home page after dismissing the SweetAlert
         if (result.isConfirmed || result.isDismissed) {
-          navigate('/');
+          navigate('/vehicles/home');
         }
       });
     } catch (error) {
@@ -162,6 +165,8 @@ const CreateVehicles = () => {
             className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
+        
+
         <p className="text-red-500">*All fields are required</p>
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveVehicle}>
           Save

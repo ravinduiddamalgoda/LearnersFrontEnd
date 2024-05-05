@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import BackButton from "../../Components/BackButton";
 import Spinner from "../../Components/Spinner";
-
-
 
 const RevenuePage = () => {
   const [payments, setPayments] = useState([]);
@@ -29,6 +26,7 @@ const RevenuePage = () => {
       });
   }, []);
 
+  // Filter payments based on search term
   const filteredPayments = payments.filter(payment =>
     payment.paymentID.includes(searchTerm) ||
     payment.paymentType.includes(searchTerm) ||
@@ -53,11 +51,8 @@ const RevenuePage = () => {
     
     // Add title
     doc.setFontSize(18);
-    doc.text('Monthly Revenue Report', 40, 50);
+    doc.text(' Revenue Report', 40, 50);
     
-    // Add total revenue
-    doc.setFontSize(12);
-    doc.text(`Total Revenue: Rs.${totalRevenue.toFixed(2)}`, 40, 80);
   
     // Add table headers
     const tableHeaders = [['Payment ID', 'Payment Type', 'Date', 'Student Name', 'Remarks', 'Amount']];
@@ -81,7 +76,11 @@ const RevenuePage = () => {
       styles: { fontSize: 10, cellPadding: 5 }
     });
   
+    // Add total revenue
+    doc.setFontSize(12);
+    doc.text(`Total Revenue: Rs.${totalRevenue.toFixed(2)}`, 40, 80);
     // Save PDF
+
     doc.save('monthly_revenue_report.pdf');
   };
   
@@ -89,15 +88,16 @@ const RevenuePage = () => {
   return (
     <div className='p-4'>
       <BackButton />
-      <h1 className='text-3xl my-4'>Revenue</h1>
+      <h1 className='text-5xl my-4'>Revenue</h1>
+      
       {loading ? <Spinner /> : ''}
-      <div className='my-4'>
+      <div className='my-4 flex'>
         <input
           type='text'
           placeholder='Search...'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          className='border-2 border-gray-500 px-4 py-2 mb-4'
+          className='border-2 border-gray-500 px-4 py-2 mb-4 mr-4'
         />
         <div>
           <label className='mr-4'>Start Date:</label>
@@ -118,7 +118,7 @@ const RevenuePage = () => {
       </div>
 
       <table className='border-collapse border border-gray-500 w-full'>
-      <thead>
+        <thead>
           <tr>
             <th className='border border-gray-500 px-4 py-2'>Payment ID</th>
             <th className='border border-gray-500 px-4 py-2'>Payment Type</th>
@@ -131,23 +131,19 @@ const RevenuePage = () => {
         <tbody>
           {filteredByDate.map(payment => (
             <tr key={payment.paymentID}>
-            <td className='border border-gray-500 px-4 py-2'>{payment.paymentID}</td>
-            <td className='border border-gray-500 px-4 py-2'>{payment.paymentType}</td>
-            <td className='border border-gray-500 px-4 py-2'>{new Date(payment.dateTime).toLocaleDateString()}</td>
-            <td className='border border-gray-500 px-4 py-2'>{payment.studentName}</td>
-            <td className='border border-gray-500 px-4 py-2'>{payment.remarks}</td>
-            <td className='border border-gray-500 px-4 py-2'>{payment.Amount}</td>
-          </tr>
-
+              <td className='border border-gray-500 px-4 py-2'>{payment.paymentID}</td>
+              <td className='border border-gray-500 px-4 py-2'>{payment.paymentType}</td>
+              <td className='border border-gray-500 px-4 py-2'>{new Date(payment.dateTime).toLocaleDateString()}</td>
+              <td className='border border-gray-500 px-4 py-2'>{payment.studentName}</td>
+              <td className='border border-gray-500 px-4 py-2'>{payment.remarks}</td>
+              <td className='border border-gray-500 px-4 py-2'>{payment.Amount}</td>
+            </tr>
           ))}
         </tbody>
       </table>
       
-      <div className='my-4'>
+      <div className='my-4 flex justify-between'>
         <p>Total Revenue: Rs {totalRevenue.toFixed(2)}</p>
-      </div>
-
-      <div className='mt-4'>
         <button onClick={generatePDF} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
           Download Revenue Report (PDF)
         </button>

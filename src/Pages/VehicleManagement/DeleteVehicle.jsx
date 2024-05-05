@@ -14,7 +14,7 @@ const DeleteVehicle = () => {
       .delete(`http://localhost:3000/vehicle/delete/${id}`)
       .then(() => {
         setLoading(false);
-        navigate('/');
+        navigate('/vehicles/home');
       })
       .catch((error) => {
         setLoading(false);
