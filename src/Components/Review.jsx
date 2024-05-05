@@ -90,6 +90,7 @@ export default function Review({ review, onEdit, onDelete }) {
 
             <div className='flex justify-end gap-2 text-xs'>
               <Button
+                className='bg-green-100 text-black'
                 type='button'
                 size='sm'
                 onClick={handleSave}

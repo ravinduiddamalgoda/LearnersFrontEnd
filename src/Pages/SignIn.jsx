@@ -54,7 +54,7 @@ export default function SignIn() {
 
         {error && <p className='text-red-500 mt-5 '> {error} </p>}
 
-        <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-80'> {loading ? 'Loading...' : 'Sign in'}</button>
+        <button disabled={loading} className='bg-blue-200 text-black p-3 rounded-lg uppercase hover:opacity-80'> {loading ? 'Loading...' : 'Sign in'}</button>
 
       </form>
 

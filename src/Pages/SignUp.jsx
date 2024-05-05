@@ -65,7 +65,7 @@ export default function SignUp() {
 
         {error && <p className='text-red-500 mt-5'>{error}</p>}
 
-        <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-80'>{loading ? 'Loading...' : 'Sign Up'}</button>
+        <button disabled={loading} className='bg-blue-200 text-black p-3 rounded-lg uppercase hover:opacity-80'>{loading ? 'Loading...' : 'Sign Up'}</button>
       </form>
 
       <div className='flex gap-2 mt-5'>
