@@ -17,7 +17,6 @@ import ScrollToTop from './Components/ScrollToTop';
 
 import Chat from './Pages/Chat'
 import PhysicalTrainingHome from './Pages/PhysicalTrainingHome';
-import ChatSection from './Components/ChatSection';
 import QuizMain from './Pages/QuizMain';
 import ViewQuiz from './Components/ViewQuiz';
 // import Home from './pages/VehicleManagement/Home';
@@ -36,6 +35,7 @@ import ViewStudentEnrollment from './Pages/ViewStudentEnrollments';
 import UserLogin from './Pages/UserLogin';
 import UserRegister from './Pages/UserRegister';
 import UserprofileInterface from './Components/UserprofileInterface';
+import Chatbot from './Pages/Chatbot';
 
 export default function App() {
   
@@ -70,8 +70,8 @@ export default function App() {
             <Route path="/updateTraining" element={<UpdatePTS/>}/>
             <Route path='/ptsEnroll' element={<StudentEnrollments />} />
             <Route path ='/viewptsStudent' element = {<ViewStudentEnrollment/>}/>
-            <Route path= '/chat' element ={<ChatSection />}/>  
-            
+            <Route path= '/chat' element ={<Chat />}/>  
+            <Route path= '/chatbot' element ={<Chatbot />}/>  
             <Route path='/quizmain' element={<QuizMain/>}/>
             {/* <Route path='/viewQuizes' element={<ViewQuiz/>}/> */}
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>

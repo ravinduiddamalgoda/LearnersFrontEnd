@@ -16,21 +16,21 @@ export default function UserRegister() {
     const handleSubmit = async () => {
         try {
             const response = await axios.post('http://localhost:3000/user/registerUser', {
-                username: uname,
-                password: pswrd,
-                email: email,
-                phoneNumber: phone,
-                address: address,
-                gender: gender,
-                firstName: firstName,
-                lastName: lastName
+                username: "thilankanew1",
+                password: "thilankanew1",
+                email: "thilankanew1@gmail.com",
+                phoneNumber: "94765942820",
+                address: "Kurunegala",
+                gender: "Male",
+                firstName: "Thilanka",
+                lastName: "Wijesingha"
             });
 
             localStorage.setItem('user', JSON.stringify(response.data));
 
-            //const user = JSON.parse(localStorage.getItem('user'));
+            const user = JSON.parse(localStorage.getItem('user'));
 
-            //console.log("User registered successfully:", user);
+            console.log("User registered successfully:", user);
 
             navigate('/')
 
@@ -92,7 +92,7 @@ export default function UserRegister() {
                             type='button'
                             value='Submit'
                             onClick={handleSubmit}
-                            className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-black rounded-full bg-transparent outline-none' />
+                            className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-[#000000] rounded-full bg-transparent outline-none' />
                     </div>
                 </div>
             </div>

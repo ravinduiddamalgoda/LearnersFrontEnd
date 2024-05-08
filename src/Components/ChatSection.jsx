@@ -6,8 +6,6 @@ import Button from '@mui/material/Button';
 import { io } from "socket.io-client";
 import axios from 'axios';
 
-const user = '66283ef81df4567e1d703370';
-
 export default function ChatSection() {
 
     const [userTopics, setUserTopics] = useState([]);
@@ -23,11 +21,12 @@ export default function ChatSection() {
     const [showButtonsForMessage, setShowButtonsForMessage] = useState({});
     const [messages, setmessages] = useState([]);
     const [currentGroup, setcurrentGroup] = useState('')
+    const [loggeduser, setloggeduser] = useState({})
 
-    const user = '66283ef81df4567e1d703370';
+    //const user = '66283ef81df4567e1d703370';
     
     const fetchgroups = async () => {
-      const response = await axios.get(`http://localhost:3000/chat/getallgroups`);
+      const response = await axios.get(`http://localhost:3300/chat/getallgroups`);
       setgroups(response.data.groups)
       console.log(groups)
     };
@@ -35,7 +34,7 @@ export default function ChatSection() {
     const fetchMessages = async (groupId) => {
       console.log(groupId)
       setcurrentGroup(groupId);
-      const response = await axios.post(`http://localhost:3000/chat/getmessages`, { group: groupId });
+      const response = await axios.post(`http://localhost:3300/chat/getmessages`, { group: groupId });
       setmessages(response.data.messages)
       console.log('messages', messages)
     };
@@ -45,13 +44,15 @@ export default function ChatSection() {
   };
   
   const handleSendClick = async () => {
+    const user = loggeduser;
+    console.log("====================user ID=================", loggeduser);
     if(groupName != ''){
       const adminId = user;
       const groupData = {
         name: groupName, 
         admin: adminId
       }
-      const response = await axios.post(`http://localhost:3000/chat/creategroup`, groupData);
+      const response = await axios.post(`http://localhost:3300/chat/creategroup`, groupData);
       console.log(response)
       setShowInput(false);
     }else {
@@ -70,7 +71,7 @@ export default function ChatSection() {
             sender: user,
             group: currentGroup
           };
-          const response = await axios.post(`http://localhost:3000/chat/sendmessage`, messageData);
+          const response = await axios.post(`http://localhost:3300/chat/sendmessage`, messageData);
           setMessageText('');
         }
       } else {
@@ -78,7 +79,7 @@ export default function ChatSection() {
               messageId: currentMessage,
               content: messageText
           };
-          const response = await axios.post(`http://localhost:3000/chat/updatemessage`, updateMessageData);
+          const response = await axios.post(`http://localhost:3300/chat/updatemessage`, updateMessageData);
           setMessageText('');
       }
     } else {
@@ -101,7 +102,7 @@ export default function ChatSection() {
 
   const handleDeleteClick = async (messageId) => {
     console.log(messageId)
-    const response = await axios.delete(`http://localhost:3000/chat/deletemessage/${messageId}`);
+    const response = await axios.delete(`http://localhost:3300/chat/deletemessage/${messageId}`);
   };
 
   const handleInputChange = (e) => {
@@ -128,13 +129,14 @@ export default function ChatSection() {
   };
 
   useEffect(() => {
+    
     fetchgroups();
 
     const updatedUserTopics = [];
     const updatedOtherTopics = [];
 
     groups.forEach(group => {
-        if (group.admin === user) {
+        if (group.admin === loggeduser) {
             updatedUserTopics.push(group);
         } else {
             updatedOtherTopics.push(group);
@@ -143,6 +145,12 @@ export default function ChatSection() {
 
     setUserTopics(updatedUserTopics);
     setOtherTopics(updatedOtherTopics);
+
+    const user2 = JSON.parse(localStorage.getItem('user'));
+    setloggeduser(user2._id);
+    console.log("=======================user==========================",user2)
+    console.log(user2)
+    console.log("====================user ID=================", loggeduser);
 
   }, [groups]);  
 

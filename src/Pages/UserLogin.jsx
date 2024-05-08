@@ -45,7 +45,7 @@ export default function UserLogin() {
                     type='text' 
                     value='Submit'
                     onClick={handleSubmit}
-                    className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-black rounded-full bg-transparent outline-none' />
+                    className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-[#000000] rounded-full bg-transparent outline-none' />
             </div>
         </div>
       </div>

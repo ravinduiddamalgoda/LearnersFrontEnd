@@ -38,10 +38,10 @@ export default function Header() {
         ) : (
           <div className='flex justify-center items-center gap-[80px] text-[22px]'>
             <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/'>About Us</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/'>Contact Us</Link></div>
             <div className={`hover:font-[500]`}><Link to='/chat'>Chat</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/chatbot'>Chatbot</Link></div>
           </div>
         )
       }
