@@ -9,6 +9,7 @@ export default function StudentManagement() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -20,7 +21,6 @@ export default function StudentManagement() {
           if(data.users.length < 9){
             setShowMore(false);
           }
-
         } else {
           throw new Error('Failed to fetch students');
         }
@@ -32,54 +32,71 @@ export default function StudentManagement() {
     if (currentUser.isAdmin) {
       fetchStudents();
     }
-  }, [currentUser._id, currentUser.isAdmin]);
+  }, [currentUser]);
 
-    const handleShowMore = async () => {
-      const startIndex = users.length;
-      try {
-        const res = await fetch(`api/auth/getusers?startIndex=${startIndex}`);
-        const data = await res.json();
-        if (res.ok) {
-          setUsers((prev) => [...prev, ...data.users]);
-          if (data.users.length < 9) {
-            setShowMore(false);
-          }
+  const handleShowMore = async () => {
+    const startIndex = users.length;
+    try {
+      const res = await fetch(`api/auth/getusers?startIndex=${startIndex}`);
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) => [...prev, ...data.users]);
+        if (data.users.length < 9) {
+          setShowMore(false);
         }
-      } catch (error){
-        console.log(error.message);
       }
-    };
-    
-    const handleDeleteUser = async () => {
-      setShowModal(false);
-      try {
-        const res = await fetch(
-          `/api/auth/delete/${userIdToDelete}`,
-          {
-            method: 'DELETE',
-          }
+    } catch (error){
+      console.log(error.message);
+    }
+  };
+  
+  const handleDeleteUser = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `/api/auth/delete/${userIdToDelete}`,
+        {
+          method: 'DELETE',
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setUsers((prev) => 
+          prev.filter((user) => user._id !== userIdToDelete)
         );
-        const data = await res.json();
-        if (!res.ok) {
-          console.log(data.message);
-        } else {
-          setUsers((prev) => 
-            prev.filter((user) => user._id !== userIdToDelete)
-          );
-        }
-
-      } catch (error) {
-        console.log(error.message);
       }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-    };
+  const onChange = (e) => {
+    setSearchTerm(e.target.value);
+  }
 
-
+  const filteredUsers = users.filter(user =>
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.phoneNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.address.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9 '>
       {currentUser.isAdmin && users.length > 0 ? (
         <>
+          <div className='p-3'>
+            <input
+              type='search'
+              placeholder='Search...'
+              className='bg-transparent focus:outline-none w-24 sm:w-64'
+              value={searchTerm}
+              onChange={onChange}
+            />
+          </div>
+
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date created</Table.HeadCell>
@@ -93,7 +110,7 @@ export default function StudentManagement() {
             </Table.Head>
             
             <Table.Body className='divide-y'>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <Table.Row key={user._id} className='bg-white '>
                   <Table.Cell>{new Date(user.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell className='font-medium text-gray-900'>{user.userID}</Table.Cell>
@@ -126,7 +143,6 @@ export default function StudentManagement() {
             )
           }
         </>
-
       ) : (
         <p>You have not added any license packages yet!</p>
       )}

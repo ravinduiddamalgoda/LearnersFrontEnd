@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>   
       <div className='font-poppins'>
-        <div> <img src={HeroImage} className='my-[10px]'/> </div>
+        <div className='flex justify-center'> <img src={HeroImage} className='my-[10px]'/> </div>
         <div className='flex justify-center mt-[112px] mb-[67px] items-center gap-[10px]'>
             <div className='bg-[#EE8F00] w-[39px] h-[39px]'></div>
             <div className='font-poppins text-[55px] font-[700]'>Services</div>

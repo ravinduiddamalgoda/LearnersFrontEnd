@@ -5,6 +5,8 @@ import EditPofile from '../Pages/AdminEditProfilePage';
 import InstructorRegistration from '../Pages/InstructorRegistration';
 import AddLicensePkg from '../Pages/AddLicensePkg';
 import StudentManagement from '../Pages/StudentManagement';
+import AdminDashReviews from '../Components/AdminDashReviews';
+import AdminDashboardComponent from '../Components/AdminDashboardComponent';
 
 export default function AdminDashboard() {
   const location = useLocation();
@@ -25,10 +27,12 @@ export default function AdminDashboard() {
         <AdminSidebar />
       </div>
       <div className="flex-1">
+        {tab === 'dashboard' && <AdminDashboardComponent />}
         {tab === 'admin-edit-profile' && <EditPofile />}
         {tab === 'student-management' && <StudentManagement />}
         {tab === 'instructor-registration' && <InstructorRegistration />}
         {tab === 'add-licensepkg' && <AddLicensePkg />}
+        {tab === 'reviews' && <AdminDashReviews />}
       </div>
     </div>
   );
