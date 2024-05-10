@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamation } from 'react-icons/hi';
+import { useReactToPrint } from 'react-to-print';
 
 export default function InstructorManagement() {
   const { currentUser } = useSelector((state) => state.user);
@@ -10,6 +11,7 @@ export default function InstructorManagement() {
   const [showModal, setShowModal] = useState(false);
   const [instructorIdToDelete, setInstructorIdToDelete] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const ComponentsRef = useRef();
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -80,18 +82,23 @@ export default function InstructorManagement() {
     }
 
     const filteredInstructors = instructors.filter(user =>
+      new Date(user.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase()) ||
       user.InstructorID.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.InstructorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.InstructorLocation.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handlePrint = useReactToPrint({
+      content: () => ComponentsRef.current,
+      documentTitle: 'Students Report',
+    });
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9 '>
       {currentUser.isAdmin && instructors.length > 0 ? (
         <>
-          <div className='p-3'>
+          <div className='p-3 flex items-center justify-between'>
             <input
               type='search'
               placeholder='Search...'
@@ -99,7 +106,12 @@ export default function InstructorManagement() {
               value={searchTerm}
               onChange={onChange}
             />
+
+            <button onClick={handlePrint} className='bg-teal-200 text-black p-3 rounded-lg uppercase hover:opacity-80'> Download Report </button>
+
           </div>
+
+          <div ref={ComponentsRef}>
 
           <Table hoverable className='shadow-md'>
             <Table.Head>
@@ -135,7 +147,7 @@ export default function InstructorManagement() {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
+          </Table> </div>
 
           {
             showMore && (
@@ -176,3 +188,6 @@ export default function InstructorManagement() {
     </div>
   );
 }
+
+
+// onafterprint:()=>alert("Report successfully generated")

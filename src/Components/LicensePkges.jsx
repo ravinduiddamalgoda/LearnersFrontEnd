@@ -81,7 +81,8 @@ export default function LicensePkges() {
     }
 
     const filteredPackages = licensePackages.filter(packages =>
-      packages.packageName.toLowerCase().includes(searchTerm.toLowerCase())
+      packages.packageName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      new Date(packages.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase())
     );
 
   return (

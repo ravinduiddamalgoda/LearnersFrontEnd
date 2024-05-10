@@ -34,7 +34,7 @@ export default function SignIn() {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate('/admin-dashboard');
+      navigate('/admin-dashboard?tab=dashboard');
       
     } catch (error) {
       dispatch(signInFailure(error.message));
