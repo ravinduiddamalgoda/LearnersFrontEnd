@@ -36,6 +36,7 @@ import ViewStudentEnrollment from './Pages/ViewStudentEnrollments';
 import UserLogin from './Pages/UserLogin';
 import UserRegister from './Pages/UserRegister';
 import UserprofileInterface from './Components/UserprofileInterface';
+import EditUserDetail from './Components/EditUserDetail';
 
 export default function App() {
   
@@ -85,6 +86,7 @@ export default function App() {
             <Route path='/revenue' element={<HomeRevenue/>} />
 
             <Route path='/user/interface' element={<UserprofileInterface/>}/>
+            <Route path='/user/edit' element={<EditUserDetail/>}/>
           </Routes>
 
     </BrowserRouter>

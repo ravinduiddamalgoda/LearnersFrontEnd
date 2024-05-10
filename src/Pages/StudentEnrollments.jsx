@@ -7,7 +7,7 @@ const StudentEnrollments = () => {
     const [filteredSessions, setFilteredSessions] = useState([]);
     const [searchDate, setSearchDate] = useState("");
     const [searchLocation, setSearchLocation] = useState("");
-    const userID = "ST306275"; // hardcoded user ID
+    const userID = "ST694721"; // hardcoded user ID
 
     useEffect(() => {
         fetchSessions();

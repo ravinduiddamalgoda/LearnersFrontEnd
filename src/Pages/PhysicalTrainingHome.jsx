@@ -19,7 +19,9 @@ const validationSchema = Yup.object({
   maxCount: Yup.number()
     .required("Maximum number of participants is required")
     .min(1, "At least one participant is required")
-    .max(100, "Cannot exceed 100 participants"),
+    .max(100, "Cannot exceed 100 participants")
+    .positive("Number of participants cannot be negative"),
+  instructorQualification : Yup.string().required("Instructor Qualification is required")
 });
 
 const PhysicalTrainingHome = () => {
@@ -47,6 +49,7 @@ const PhysicalTrainingHome = () => {
       location: "",
       vehicleID: "",
       maxCount: "",
+      instructorQualification:""
     },
     validationSchema,
     onSubmit: (values) => {
@@ -76,7 +79,7 @@ const PhysicalTrainingHome = () => {
           </h1>
           <div className="flex flex-row">
             <div className="mx-10 w-72">
-              <h1>Add a Training Session</h1>
+              <h1 className="text-xl font-bold m-4">Add a Training Session</h1>
               <form onSubmit={formik.handleSubmit} className="space-y-6 mx-auto">
                 {/* Instructor ID Input */}
                 <label htmlFor="instructorID">Instructor ID</label>
@@ -162,11 +165,27 @@ const PhysicalTrainingHome = () => {
                   onChange={formik.handleChange}
                   value={formik.values.maxCount}
                   className="border p-1 rounded w-full"
+                  min="1"
                 />
                 {formik.touched.maxCount && formik.errors.maxCount ? (
                   <div className="text-red-500 text-xs">{formik.errors.maxCount}</div>
                 ) : null}
+                
+                {/* Max Participants Input */}
+                <label htmlFor="instructorQualification">Instructor Qualification</label>
+                <input
+                  id="instructorQualification"
+                  name="instructorQualification"
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.instructorQualification}
+                  className="border p-1 rounded w-full"
+                />
+                {formik.touched.instructorQualification && formik.errors.instructorQualification ? (
+                  <div className="text-red-500 text-xs">{formik.errors.instructorQualification}</div>
+                ) : null}
   
+
                 {/* Submit Button */}
                 <button
                   type="submit"

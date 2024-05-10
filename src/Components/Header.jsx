@@ -38,9 +38,9 @@ export default function Header() {
         ) : (
           <div className='flex justify-center items-center gap-[80px] text-[22px]'>
             <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
-            <div className={`hover:font-[500]`}><Link to='/'>Home</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/'>About US</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/'>Contact US</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/user/interface'>User Dashboard</Link></div>
             <div className={`hover:font-[500]`}><Link to='/chat'>Chat</Link></div>
           </div>
         )
@@ -58,7 +58,7 @@ export default function Header() {
 
 
     //     <ul className='flex gap-4'>
-    //       <Link to='/'>
+    //       <Link to='/'>jjjjjjjjjgggggg
     //         <li className='text-slate-700 hover:underline'>
     //           Home
     //         </li>

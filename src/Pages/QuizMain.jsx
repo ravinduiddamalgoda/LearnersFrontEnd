@@ -16,9 +16,11 @@ const quizSchema = Yup.object().shape({
         .required('Answer 3 is required'),
     answer4: Yup.string()
         .required('Answer 4 is required'),
+        answer5: Yup.string()
+        .required('Answer 5 is required'),
     correctAnswer: Yup.number()
         .required('You must select the correct answer')
-        .oneOf([1, 2, 3, 4], 'Invalid answer selected')
+        .oneOf([1, 2, 3, 4,5], 'Invalid answer selected')
 });
 
 const QuizMain = () => {
@@ -50,6 +52,7 @@ const QuizMain = () => {
                     answer2: '',
                     answer3: '',
                     answer4: '',
+                    answer5: '',
                     correctAnswer: ''
                 }}
                 validationSchema={quizSchema}
@@ -69,7 +72,7 @@ const QuizMain = () => {
                             <Field type="text" name="quiz" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                             <ErrorMessage name="quiz" component="div" className="text-red-500 text-xs italic" />
                         </div>
-                        {['answer1', 'answer2', 'answer3', 'answer4'].map((item, index) => (
+                        {['answer1', 'answer2', 'answer3', 'answer4','answer5'].map((item, index) => (
                             <div key={item}>
                                 <label htmlFor={item} className="block text-sm font-medium text-gray-700">Answer {index + 1}:</label>
                                 <Field type="text" name={item} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
@@ -84,6 +87,8 @@ const QuizMain = () => {
                                 <option value="2">Answer 2</option>
                                 <option value="3">Answer 3</option>
                                 <option value="4">Answer 4</option>
+                                <option value="5">Answer 5</option>
+
                             </Field>
                             <ErrorMessage name="correctAnswer" component="div" className="text-red-500 text-xs italic" />
                         </div>
