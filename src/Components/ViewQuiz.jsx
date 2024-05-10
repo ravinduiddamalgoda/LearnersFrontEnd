@@ -56,6 +56,7 @@ const ViewQuiz = () => {
                             <li>{quiz.answer2}</li>
                             <li>{quiz.answer3}</li>
                             <li>{quiz.answer4}</li>
+                            <li>{quiz?.answer5}</li>
                         </ul>
                         <button onClick={() => handleDelete(quiz._id)} className="text-red-500 hover:text-red-700 mr-2">
                             Delete

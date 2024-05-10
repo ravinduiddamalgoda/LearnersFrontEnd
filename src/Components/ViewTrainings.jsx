@@ -47,6 +47,7 @@ const ViewTrainings = ({update}) => {
                     <p>Max Participants: {training.maxCount}</p>
                     <p>Current Count: {training.currentCount}</p>
                     <p>Status: {training.status}</p>
+                    <p>Instructor Qualification : {training?.instructorQualification}</p>
                     <button onClick={() => handleDelete(training.sessionID)} className="mt-2 py-2 px-4 bg-red-500 text-white rounded hover:bg-red-700">
                         Delete
                     </button>
