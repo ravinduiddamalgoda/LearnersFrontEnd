@@ -42,6 +42,7 @@ export default function Header() {
             <div className={`hover:font-[500]`}><Link to='/'>Contact US</Link></div>
             <div className={`hover:font-[500]`}><Link to='/user/interface'>User Dashboard</Link></div>
             <div className={`hover:font-[500]`}><Link to='/chat'>Chat</Link></div>
+            <div className={`hover:font-[500]`}><Link to='/chatbot'>Chatbot</Link></div>
           </div>
         )
       }
