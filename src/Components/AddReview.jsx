@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Button, Textarea, Modal } from 'flowbite-react';
+import { Button, Textarea, Modal } from 'flowbite-react';
 import { HiOutlineExclamation } from 'react-icons/hi';
-import React from 'react';
 import Review from './Review';
 
 const Star = ({ selected, onSelect }) => (
@@ -33,33 +32,35 @@ const StarRating = ({ totalStars, rating, onRatingChange }) => (
 
 export default function AddReview() {
   const { currentUser } = useSelector((state) => state.user);
-  const [comment, setComment] = useState('');
+  const [commentText, setCommentText] = useState('');
   const [rating, setRating] = useState(0);
-  const [commentError, setCommentError] = useState(null);
-  const [ratingError, setRatingError] = useState(null);
   const [comments, setComments] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getReview = async () => {
-      try {
-        const res = await fetch('/api/auth/getReview');
-        if (res.ok) {
-          const data = await res.json();
-          setComments(data);
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getReview();
+    fetchComments();
   }, []);
+
+  const fetchComments = async () => {
+    try {
+      const res = await fetch('/api/auth/getReview');
+      if (res.ok) {
+        const data = await res.json();
+        setComments(data);
+      } else {
+        throw new Error('Failed to fetch comments');
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error.message);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (comment.length > 200) {
+    if (commentText.length > 200) {
+      // Display error message for comment length
       return;
     }
 
@@ -69,19 +70,18 @@ export default function AddReview() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ content: comment, rating: rating, userID: currentUser._id }),
+        body: JSON.stringify({ content: commentText, rating, userID: currentUser?._id }),
       });
-      const data = await res.json();
       if (res.ok) {
-        setComment('');
+        const newComment = await res.json();
+        setComments([newComment, ...comments]);
+        setCommentText('');
         setRating(0);
-        setCommentError(null);
-        setRatingError(null);
-        setComments([data, ...comments]);
+      } else {
+        throw new Error('Failed to add comment');
       }
     } catch (error) {
-      setCommentError(error.message);
-      setRatingError(error.message);
+      console.error('Error adding comment:', error.message);
     }
   };
 
@@ -90,9 +90,10 @@ export default function AddReview() {
       prevComments.map((c) => (c._id === editedComment._id ? { ...c, content: editedComment.content } : c))
     );
   };
+  
 
   const handleDelete = async (commentId) => {
-    setShowModal(false);
+    setShowDeleteModal(false);
     try {
       if (!currentUser) {
         navigate('/sign-in');
@@ -103,33 +104,34 @@ export default function AddReview() {
       });
       if (res.ok) {
         setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentId));
+      } else {
+        throw new Error('Failed to delete comment');
       }
     } catch (error) {
-      console.log(error.message);
+      console.error('Error deleting comment:', error.message);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto w-full p-3 " >
+    <div className="max-w-2xl mx-auto w-full p-3">
       {currentUser ? (
         <div className="flex items-center gap-1 my-5 text-gray-500 text-sm">
           <p> Signed in as: </p>
-          <Link className="text-xs text-cyan-600 hover:underline" to={`/@${currentUser.username}`}>
+          <Link className="text-xs text-cyan-600 hover:underline" to={`/@${currentUser.username || currentUser.InstructorName}`}>
             @{currentUser.username || currentUser.InstructorName}
           </Link>
         </div>
       ) : (
         <div className="text-sm text-teal-500 my-5 flex gap-1">
           You must be signed in to comment.
-          <Link className="text-blue-500 hover:underline" to={'/sign-in'}>
+          <Link className="text-blue-500 hover:underline" to="/sign-in">
             Sign In
           </Link>
         </div>
       )}
 
-      {!currentUser?.isAdmin && !currentUser?.isInstructor && (
+      {!currentUser?.isInstructor && (
         <form onSubmit={handleSubmit} className="border border-teal-500 rounded-md p-3">
-          {/* Star Rating */}
           <div className="flex items-center gap-3 mb-5">
             <p className="text-gray-500">Rate:</p>
             <StarRating totalStars={5} rating={rating} onRatingChange={setRating} />
@@ -137,25 +139,18 @@ export default function AddReview() {
 
           <Textarea
             placeholder="Add a comment..."
-            rows={'3'}
-            maxLength="200"
-            onChange={(e) => setComment(e.target.value)}
-            value={comment}
+            rows={3}
+            maxLength={200}
+            onChange={(e) => setCommentText(e.target.value)}
+            value={commentText}
           />
 
           <div className="flex justify-between items-center mt-5">
-            <p className="text-gray-500 text-xs">{200 - comment.length} characters remaining</p>
+            <p className="text-gray-500 text-xs">{200 - commentText.length} characters remaining</p>
             <Button outline type="submit">
               Submit
             </Button>
           </div>
-
-          {(commentError || ratingError) && (
-            <Alert color={'failure'} className="mt-5">
-              {commentError}
-              {ratingError}
-            </Alert>
-          )}
         </form>
       )}
 
@@ -176,7 +171,7 @@ export default function AddReview() {
               review={comment}
               onEdit={handleEdit}
               onDelete={(commentId) => {
-                setShowModal(true);
+                setShowDeleteModal(true);
                 setCommentToDelete(commentId);
               }}
             />
@@ -184,7 +179,7 @@ export default function AddReview() {
         </>
       )}
 
-      <Modal show={showModal} onClose={() => setShowModal(false)} popup size="md">
+      <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)} popup size="md">
         <Modal.Header />
         <Modal.Body className="text-center">
           <HiOutlineExclamation className="h-14 w-14 text-gray-400 mb-4 mx-auto dark:text-gray-200" />
@@ -195,7 +190,7 @@ export default function AddReview() {
             <Button color="failure" onClick={() => handleDelete(commentToDelete)}>
               Yes, I'm Sure
             </Button>
-            <Button color="gray" onClick={() => setShowModal(false)}>
+            <Button color="gray" onClick={() => setShowDeleteModal(false)}>
               No, Cancel
             </Button>
           </div>

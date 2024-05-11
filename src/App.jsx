@@ -9,6 +9,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import InstructorRegistration from './Pages/InstructorRegistration';
 import AddLicensePkg from './Pages/AddLicensePkg';
 import AddReview from './Components/AddReview';
+import Reviews from './Components/Review';
 import AdminEditProfile from './Pages/AdminEditProfilePage';
 import PrivateRoute from './Components/PrivateRoute';
 import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
@@ -67,6 +68,7 @@ export default function App() {
               <Route path='/admin-edit-profile' element={<AdminEditProfile />} />
             </Route>
             <Route path='/add-review' element={<AddReview />} />
+            <Route path='/reviews' element={<Reviews />} />
             <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
             <Route path="/updateTraining" element={<UpdatePTS/>}/>
             <Route path='/ptsEnroll' element={<StudentEnrollments />} />
