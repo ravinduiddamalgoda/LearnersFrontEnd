@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserLogin() {
 
     const [uname, setuname] = useState('')
     const [pswrd, setpswrd] = useState('')
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         try {
@@ -14,7 +16,8 @@ export default function UserLogin() {
             const response = await axios.post('http://localhost:3000/user/login', { username, password });
             
             localStorage.setItem('user', JSON.stringify(response.data.user));
-
+            alert("Login successful")
+            navigate('/');
             //const user = JSON.parse(localStorage.getItem('user'));
 
             //console.log("User registered successfully:", user);
