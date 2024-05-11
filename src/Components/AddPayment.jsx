@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import instance from '../api';
 
 const AddPayment = () => {
     const [paymentData, setPaymentData] = useState({
@@ -18,7 +19,7 @@ const AddPayment = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/revenue/revenue/add', {
+            const response = await instance.post('/revenue/revenue/add', {
                 ...paymentData,
                 dateTime: new Date(paymentData.dateTime),
                 Amount: Number(paymentData.Amount)

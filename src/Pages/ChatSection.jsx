@@ -5,6 +5,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import { io } from "socket.io-client";
 import axios from 'axios';
+import instance from '../api';
 
 export default function ChatSection() {
 
@@ -26,7 +27,7 @@ export default function ChatSection() {
     const user = '66283ef81df4567e1d703370';
     
     const fetchgroups = async () => {
-      const response = await axios.get(`http://localhost:3000/chat/getallgroups`);
+      const response = await instance.get(`/chat/getallgroups`);
       setgroups(response.data.groups)
       console.log(groups)
     };
@@ -34,7 +35,7 @@ export default function ChatSection() {
     const fetchMessages = async (groupId) => {
       console.log(groupId)
       setcurrentGroup(groupId);
-      const response = await axios.post(`http://localhost:3000/chat/getmessages`, { group: groupId });
+      const response = await instance.post(`/chat/getmessages`, { group: groupId });
       setmessages(response.data.messages)
       console.log('messages', messages)
     };
@@ -50,7 +51,7 @@ export default function ChatSection() {
         name: groupName, 
         admin: adminId
       }
-      const response = await axios.post(`http://localhost:3000/chat/creategroup`, groupData);
+      const response = await instance.post(`/chat/creategroup`, groupData);
       console.log(response)
       setShowInput(false);
     }else {
@@ -69,7 +70,7 @@ export default function ChatSection() {
             sender: user,
             group: currentGroup
           };
-          const response = await axios.post(`http://localhost:3000/chat/sendmessage`, messageData);
+          const response = await instance.post(`/chat/sendmessage`, messageData);
           setMessageText('');
         }
       } else {
@@ -77,7 +78,7 @@ export default function ChatSection() {
               messageId: currentMessage,
               content: messageText
           };
-          const response = await axios.post(`http://localhost:3000/chat/updatemessage`, updateMessageData);
+          const response = await instance.post(`/chat/updatemessage`, updateMessageData);
           setMessageText('');
       }
     } else {
@@ -100,7 +101,7 @@ export default function ChatSection() {
 
   const handleDeleteClick = async (messageId) => {
     console.log(messageId)
-    const response = await axios.delete(`http://localhost:3000/chat/deletemessage/${messageId}`);
+    const response = await instance.delete(`/chat/deletemessage/${messageId}`);
   };
 
   const handleInputChange = (e) => {
