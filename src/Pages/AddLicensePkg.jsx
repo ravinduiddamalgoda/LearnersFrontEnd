@@ -65,7 +65,7 @@ export default function AddLicensePkg() {
 
             <TextInput type="text" placeholder='Description' id='description' onChange={handleChange} required/>
 
-            <TextInput type="number" placeholder='Price' id='price' onChange={handleChange} required/>
+            <TextInput type="number" placeholder='Price' id='price' min="0" onChange={handleChange} required/>
 
             <div className='flex gap-4 items-center justify-between border-4 border-gray-500 border-dotted p-3'>
               <label htmlFor="photoUpload" className='text-lg font-semibold'>Upload Image:</label>

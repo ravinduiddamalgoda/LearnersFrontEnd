@@ -19,10 +19,9 @@ export default function LicensePkges() {
         if (res.ok) {
           const data = await res.json();
           setLicensePackages(data.packages);
-          if(data.packages.length < 9){
+          if (data.packages.length < 9) {
             setShowMore(false);
           }
-
         } else {
           throw new Error('Failed to fetch license packages');
         }
@@ -36,60 +35,53 @@ export default function LicensePkges() {
     }
   }, [currentUser._id, currentUser.isAdmin]);
 
-    const handleShowMore = async () => {
-      const startIndex = licensePackages.length;
-      try {
-        const res = await fetch(`api/auth/getLicense-packages?userId=${currentUser._id}&startIndex=${startIndex}`);
-        const data = await res.json();
-        if (res.ok) {
-          setLicensePackages((prev) => [...prev, ...data.packages]);
-          if (data.packages.length < 9) {
-            setShowMore(false);
-          }
+  const handleShowMore = async () => {
+    const startIndex = licensePackages.length;
+    try {
+      const res = await fetch(`/api/auth/getLicense-packages?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const data = await res.json();
+      if (res.ok) {
+        setLicensePackages((prev) => [...prev, ...data.packages]);
+        if (data.packages.length < 9) {
+          setShowMore(false);
         }
-      } catch (error){
-        console.log(error.message);
       }
-    };
-    
-    const handleDeletePackage = async () => {
-      setShowModal(false);
-      try {
-        const res = await fetch(
-          `/api/auth/delete-package/${packageIdToDelete}/${currentUser._id}`,
-          {
-            method: 'DELETE',
-          }
-        );
-        const data = await res.json();
-        if (!res.ok) {
-          console.log(data.message);
-        } else {
-          setLicensePackages((prev) => 
-            prev.filter((packages) => packages._id !== packageIdToDelete)
-          );
-        }
-
-      } catch (error) {
-        console.log(error.message);
-      }
-
-    };
-
-    const onChange = (e) => {
-      setSearchTerm(e.target.value);
+    } catch (error) {
+      console.log(error.message);
     }
+  };
 
-    const filteredPackages = licensePackages.filter(packages =>
-      packages.packageName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      new Date(packages.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase())
-    );
+  const handleDeletePackage = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(`/api/auth/delete-package/${packageIdToDelete}/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        setLicensePackages((prev) => prev.filter((pkg) => pkg._id !== packageIdToDelete));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const onChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredPackages = licensePackages.filter((pkg) =>
+    pkg.packageName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    pkg.price.toString().includes(searchTerm.toLowerCase()) ||
+    new Date(pkg.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9 '>
+    <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9'>
       {currentUser.isAdmin && licensePackages.length > 0 ? (
         <>
-
           <div className='p-3'>
             <input
               type='search'
@@ -99,7 +91,6 @@ export default function LicensePkges() {
               onChange={onChange}
             />
           </div>
-
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
@@ -110,60 +101,51 @@ export default function LicensePkges() {
               <Table.HeadCell>Delete</Table.HeadCell>
               <Table.HeadCell>Edit</Table.HeadCell>
             </Table.Head>
-            
             <Table.Body className='divide-y'>
-              {filteredPackages.map((packages) => (
-                <Table.Row key={packages._id} className='bg-white '>
-                  <Table.Cell>{new Date(packages.updatedAt).toLocaleDateString()}</Table.Cell>
+              {filteredPackages.map((pkg) => (
+                <Table.Row key={pkg._id} className='bg-white'>
+                  <Table.Cell>{new Date(pkg.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
                     <img
-                      src={`../src/assets/LicensePkgs/${packages.image}`}
-                      alt={packages.title}
+                      src={`../src/assets/LicensePkgs/${pkg.image}`}
+                      alt={pkg.title}
                       className='w-20 h-10 object-cover bg-gray-500'
                     />
                   </Table.Cell>
-                  <Table.Cell className='font-medium text-gray-900'>{packages.packageName}</Table.Cell>
-                  <Table.Cell className='font-medium text-gray-900'>{packages.description}</Table.Cell>
-                  <Table.Cell className='font-medium text-gray-900'>Rs: {packages.price}</Table.Cell>
+                  <Table.Cell className='font-medium text-gray-900'>{pkg.packageName}</Table.Cell>
+                  <Table.Cell className='font-medium text-gray-900'>{pkg.description}</Table.Cell>
+                  <Table.Cell className='font-medium text-gray-900'>Rs: {pkg.price}</Table.Cell>
                   <Table.Cell>
-                    <span 
+                    <span
                       onClick={() => {
                         setShowModal(true);
-                        setPackageIdToDelete(packages._id);
-                      }} 
-                      className='font-medium text-red-500 hover:underline cursor-pointer'> 
-                      Delete 
+                        setPackageIdToDelete(pkg._id);
+                      }}
+                      className='font-medium text-red-500 hover:underline cursor-pointer'
+                    >
+                      Delete
                     </span>
                   </Table.Cell>
                   <Table.Cell>
-                    <Link className='text-teal-500 hover:underline' to={`/update-licensePkg/${packages._id}`}>
+                    <Link className='text-teal-500 hover:underline' to={`/update-licensePkg/${pkg._id}`}>
                       <span> Edit </span>
-                    </Link> 
+                    </Link>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table>
-
-          {
-            showMore && (
-              <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7'>
-                Show more
-              </button>
-            )
-          }
+          {showMore && (
+            <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7'>
+              Show more
+            </button>
+          )}
         </>
-
       ) : (
         <p>You have not added any license packages yet!</p>
       )}
 
-      <Modal 
-        show={showModal} 
-        onClose={() => setShowModal(false)}
-        popup
-        size='md'
-      >
+      <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
         <Modal.Header />
         <Modal.Body className='text-center'>
           <HiOutlineExclamation className='h-14 w-14 text-gray-400 mb-4 mx-auto dark:text-gray-200' />
@@ -179,8 +161,7 @@ export default function LicensePkges() {
             </Button>
           </div>
         </Modal.Body>
-      </Modal>  
-
+      </Modal>
     </div>
   );
 }

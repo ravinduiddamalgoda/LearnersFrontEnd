@@ -20,7 +20,7 @@ export default function AdminDashboardComponent() {
       try {
         const res = await fetch('api/auth/getusers?limit=5')
         if(res.ok){
-          const data = await res.json(); // Define data 
+          const data = await res.json(); 
           setUsers(data.users);
           setTotalUsers(data.totalUsers);
           setLastMonthUsers(data.lasthMonthUsers); 
@@ -34,7 +34,7 @@ export default function AdminDashboardComponent() {
       try {
         const res = await fetch('api/auth/getinstructors?limit=5')
         if(res.ok){
-          const data = await res.json(); // Define data 
+          const data = await res.json(); 
           setInstructors(data.instructors);
           setTotalInstructors(data.totalInstructors);
           setLastMonthInstructors(data.lasthMonthInstructors); 

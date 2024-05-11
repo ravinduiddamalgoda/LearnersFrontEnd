@@ -58,12 +58,10 @@ export default function UpdateLicensePkg() {
       for (const key in formData) {
         formDataWithImage.append(key, formData[key]);
       }
+      
       const res = await fetch(`/api/auth/update-package/${packageId}/${currentUser._id}`, {
         method: 'PUT',
-        headers: {
-          'content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        body: formDataWithImage,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -71,7 +69,7 @@ export default function UpdateLicensePkg() {
       }
       setLoading(false);
       setError(null);
-      location.reload();
+      navigate('/admin-dashboard?tab=add-licensepkg')
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -85,7 +83,7 @@ export default function UpdateLicensePkg() {
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <TextInput type="text" placeholder='Package Name' id='packageName' onChange={handleChange} value={formData.packageName} />
           <TextInput type="text" placeholder='Description' id='description' onChange={handleChange} value={formData.description} />
-          <TextInput type="number" placeholder='Price' id='price' onChange={handleChange} value={formData.price} />
+          <TextInput type="number" placeholder='Price' id='price' min="0" onChange={handleChange} value={formData.price} />
           <div className='flex gap-4 items-center justify-between border-4 border-gray-500 border-dotted p-3'>
             <label htmlFor="photoUpload" className='text-lg font-semibold'>Upload Image:</label>
             <FileInput type="file" id="photoUpload" accept="image/*" onChange={handleFileChange} />
@@ -94,7 +92,7 @@ export default function UpdateLicensePkg() {
             <img src={selectedImage ? selectedImage : `/src/assets/LicensePkgs/${formData.image}`} alt="Selected" className="mx-auto mt-4 max-w-xs" />
           ) : null}
           {error && <p className='text-red-500 mt-5'>{error}</p>}
-          <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-80'>
+          <button disabled={loading} className='bg-blue-200 text-black p-3 rounded-lg uppercase hover:opacity-80'>
             {loading ? 'Loading...' : 'Update'}
           </button>
         </form>
