@@ -38,6 +38,10 @@ import UserLogin from './Pages/UserLogin';
 import UserRegister from './Pages/UserRegister';
 import UserprofileInterface from './Components/UserprofileInterface';
 import EditUserDetail from './Components/EditUserDetail';
+import SelectQuizPackage from './Pages/SelectQuizPackage';
+import QuizPlay from './Pages/QuizPlay';
+import Payment from './Pages/Payment';
+import ViewQuizMarks from './Pages/ViewQuizMarks';
 
 export default function App() {
   
@@ -79,6 +83,9 @@ export default function App() {
             {/* <Route path='/viewQuizes' element={<ViewQuiz/>}/> */}
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
             <Route path='/addQuizPackage' element={<AddQuizPackages/>}/>
+            <Route path='/selectQuizPackage' element={<SelectQuizPackage/>}/>
+            <Route path='/playQuiz/:quizPackageID' element={<QuizPlay/>}/>
+            <Route path='/viewQuizMarks' element={<ViewQuizMarks/>}/>
 
             <Route path='/vehicles/home' element = {<VehicleHome/>} />
             <Route path='/vehicles/details/:id' element={<ShowVehicle/>} />
@@ -86,7 +93,7 @@ export default function App() {
             <Route path='/vehicles/edit/:id' element={<EditVehicle/>} />
             <Route path='/vehicles/delete/:id' element={<DeleteVehicle/>} />
             <Route path='/revenue' element={<HomeRevenue/>} />
-
+            <Route path='/user/payment' element={<Payment/>}/>
             <Route path='/user/interface' element={<UserprofileInterface/>}/>
             <Route path='/user/edit' element={<EditUserDetail/>}/>
           </Routes>
