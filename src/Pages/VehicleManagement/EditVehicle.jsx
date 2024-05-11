@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BackButton from '../../Components/BackButton';
+
 import Spinner from '../../Components/Spinner';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -102,12 +102,12 @@ const EditVehicle = () => {
 
   return (
     <div className='p-4'>
-      <BackButton />
-      <h1 className='text-3xl my-4'>Edit Vehicle</h1>
+     
+      <h1 className='text-6xl my-4 font-bold text-black-700 flex justify-center'>Edit Vehicle</h1>
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Vehicle NO</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Vehicle NO</label>
           <input
             type='text'
             value={vehicleNO}
@@ -119,7 +119,7 @@ const EditVehicle = () => {
           )}
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Vehicle Type</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Vehicle Type</label>
           <input
             type='text'
             value={vehicleType}
@@ -128,7 +128,7 @@ const EditVehicle = () => {
           />
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Transmission Type</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Transmission Type</label>
           <select
             value={transmissionType}
             onChange={(e) => setTransmissionType(e.target.value)}
@@ -140,7 +140,7 @@ const EditVehicle = () => {
           </select>
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Fuel Type</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Fuel Type</label>
           <select
             value={fuelType}
             onChange={(e) => setFuelType(e.target.value)}
@@ -152,7 +152,7 @@ const EditVehicle = () => {
           </select>
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Availability</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Availability</label>
           <select
             value={availability}
             onChange={(e) => setAvailability(e.target.value === 'true')}
@@ -163,7 +163,7 @@ const EditVehicle = () => {
           </select>
         </div>
         <div className='my-4'>
-          <label className='text-xl mr-4 text-gray-500'>Student Capacity</label>
+          <label className='text-xl mr-4 text-gray-500 font-bold'>Student Capacity</label>
           <input
             type='number'
             value={studentCnt}
@@ -172,7 +172,7 @@ const EditVehicle = () => {
           />
         </div>
         <p className="text-red-500">*All fields are required</p>
-        <button className='p-2 bg-sky-300 m-8' onClick={handleEditVehicle}>
+        <button className='p-2 bg-blue-950 hover:bg-blue-900 text-white m-10' onClick={handleEditVehicle}>
           Save
         </button>
       </div>

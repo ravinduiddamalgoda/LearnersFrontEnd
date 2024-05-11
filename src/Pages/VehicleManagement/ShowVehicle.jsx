@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import BackButton from '../../Components/BackButton';
+
 import Spinner from '../../Components/Spinner';
 
 const ShowVehicle = () => {
@@ -29,39 +29,39 @@ const ShowVehicle = () => {
 
   return (
     <div className='p-4'>
-      <BackButton />
-      <h1 className='text-3xl my-4'>Show Vehicle</h1>
+      
+      <h1 className='text-6xl my-4 font-bold text-black-700'>Show Vehicle</h1>
       {loading ? (
         <Spinner />
       ) : (
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Vehicle Id</span>
-            <span>{vehicle._id}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Vehicle Id</span>
+            <span className='font-bold'>{vehicle._id}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Vehicle No</span>
-            <span>{vehicle.vehicleNO}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Vehicle No</span>
+            <span className='font-bold'>{vehicle.vehicleNO}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Vehicle Type</span>
-            <span>{vehicle.vehicleType}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Vehicle Type</span>
+            <span className='font-bold'>{vehicle.vehicleType}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Transmission Type</span>
-            <span>{vehicle.transmissionType}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Transmission Type</span>
+            <span className='font-bold'>{vehicle.transmissionType}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Fuel Type</span>
-            <span>{vehicle.fuelType}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Fuel Type</span>
+            <span className='font-bold'>{vehicle.fuelType}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Availability</span>
-            <span>{availabilityString}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Availability</span>
+            <span className='font-bold'>{availabilityString}</span>
           </div>
-          <div className='my-4'>
-            <span className='text-xl mr-4 text-gray-500'>Student Capacity</span>
-            <span>{vehicle.studentCnt}</span>
+          <div className='my-4 flex'>
+            <span className='text-xl text-gray-500 font-bold' style={{ width: '150px' }}>Student Capacity  </span>
+            <span className='font-bold'>{vehicle.studentCnt}</span>
           </div>
         </div>
       )}
