@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function UserLogin() {
 
     const [uname, setuname] = useState('')
     const [pswrd, setpswrd] = useState('')
+    const navigate = useNavigate()
 
     const handleSubmit = async () => {
         try {
@@ -15,16 +18,16 @@ export default function UserLogin() {
             
             localStorage.setItem('user', JSON.stringify(response.data.user));
 
-            //const user = JSON.parse(localStorage.getItem('user'));
+            const user = JSON.parse(localStorage.getItem('user'));
 
-            //console.log("User registered successfully:", user);
+            console.log("User registered successfully:", user);
+            navigate('/')
 
         } catch (error) {
             console.error("Login failed:", error.response.data.message);
         }
     };
     
-
   return (
     <div>
       <div className='font-poppins'>

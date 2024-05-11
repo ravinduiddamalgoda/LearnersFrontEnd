@@ -15,7 +15,7 @@ import OnlyAdminPrivateRoute from './Components/OnlyAdminPrivateRoute';
 import UpdateLicensePkg from './Pages/UpdatePackage';
 import ScrollToTop from './Components/ScrollToTop';
 
-import Chat from './Pages/Chat'
+//import Chat from './Pages/Chat'
 import PhysicalTrainingHome from './Pages/PhysicalTrainingHome';
 import ChatSection from './Components/ChatSection';
 import QuizMain from './Pages/QuizMain';
@@ -38,16 +38,13 @@ import UserRegister from './Pages/UserRegister';
 import UserprofileInterface from './Components/UserprofileInterface';
 import EditUserDetail from './Components/EditUserDetail';
 
+//student routes
+//import { Chat, EditUserDetail, UserprofileInterface, AddReview } from '../src/routes/StudentRoutes';
+import ProtectedStudentRoutes from './routes/ProtectedStudentRoutes';
+
 export default function App() {
   
   return (
-
-    // <div className="dashboard">
-    //   <Sidebar/>
-    //   {/* <ContentP/> */}
-    //   <Chat />
-    // </div>
-
     <BrowserRouter>
         <ScrollToTop />
         <Header />
@@ -66,13 +63,19 @@ export default function App() {
               <Route path='/instructor-registration' element={<InstructorRegistration />} />
               <Route path='/admin-edit-profile' element={<AdminEditProfile />} />
             </Route>
-            <Route path='/add-review' element={<AddReview />} />
+            
             <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
             <Route path="/updateTraining" element={<UpdatePTS/>}/>
             <Route path='/ptsEnroll' element={<StudentEnrollments />} />
             <Route path ='/viewptsStudent' element = {<ViewStudentEnrollment/>}/>
-            <Route path= '/chat' element ={<ChatSection />}/>  
-            
+
+            <Route element={<ProtectedStudentRoutes />} >
+              <Route path='/chat' element={<ChatSection />} />
+              <Route path='/user/interface' element={<UserprofileInterface/>}/>
+              <Route path='/user/edit' element={<EditUserDetail/>}/>
+              <Route path='/add-review' element={<AddReview />} />
+            </Route>
+
             <Route path='/quizmain' element={<QuizMain/>}/>
             {/* <Route path='/viewQuizes' element={<ViewQuiz/>}/> */}
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
@@ -85,8 +88,7 @@ export default function App() {
             <Route path='/vehicles/delete/:id' element={<DeleteVehicle/>} />
             <Route path='/revenue' element={<HomeRevenue/>} />
 
-            <Route path='/user/interface' element={<UserprofileInterface/>}/>
-            <Route path='/user/edit' element={<EditUserDetail/>}/>
+            
           </Routes>
 
     </BrowserRouter>
