@@ -10,6 +10,7 @@ export default function LicensePkges() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [packageIdToDelete, setPackageIdToDelete] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -75,12 +76,30 @@ export default function LicensePkges() {
 
     };
 
+    const onChange = (e) => {
+      setSearchTerm(e.target.value);
+    }
 
+    const filteredPackages = licensePackages.filter(packages =>
+      packages.packageName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      new Date(packages.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase())
+    );
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9 '>
       {currentUser.isAdmin && licensePackages.length > 0 ? (
         <>
+
+          <div className='p-3'>
+            <input
+              type='search'
+              placeholder='Search...'
+              className='bg-transparent focus:outline-none w-24 sm:w-64'
+              value={searchTerm}
+              onChange={onChange}
+            />
+          </div>
+
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
@@ -93,7 +112,7 @@ export default function LicensePkges() {
             </Table.Head>
             
             <Table.Body className='divide-y'>
-              {licensePackages.map((packages) => (
+              {filteredPackages.map((packages) => (
                 <Table.Row key={packages._id} className='bg-white '>
                   <Table.Cell>{new Date(packages.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>

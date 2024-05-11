@@ -104,7 +104,7 @@ export default function Profile() {
         <TextInput type='email' placeholder='email' id='email' defaultValue={currentUser.email} onChange={handleChange}/>
         <TextInput type='password' placeholder='password' id='password' onChange={handleChange} />
 
-        <button className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>UPDATE</button>
+        <button className='bg-blue-200 text-black rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>UPDATE</button>
       </form>
 
       <div className='flex mt-5'>

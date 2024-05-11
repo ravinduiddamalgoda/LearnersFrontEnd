@@ -61,7 +61,7 @@ console.log(formData);
 
             {error && <p className='text-red-500 mt-5 '> {error} </p>}
 
-            <button disabled={loading} className='bg-slate-700 text-white p-4 rounded-lg uppercase hover:opacity-80'>{loading ? 'Loading...' : 'Add Instructor'}</button>
+            <button disabled={loading} className='bg-blue-200 text-black p-4 rounded-lg uppercase hover:opacity-80'>{loading ? 'Loading...' : 'Add Instructor'}</button>
 
           </form>
         </div>

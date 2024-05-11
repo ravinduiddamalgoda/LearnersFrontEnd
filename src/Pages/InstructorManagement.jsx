@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamation } from 'react-icons/hi';
+import { useReactToPrint } from 'react-to-print';
 
 export default function InstructorManagement() {
   const { currentUser } = useSelector((state) => state.user);
@@ -9,6 +10,8 @@ export default function InstructorManagement() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [instructorIdToDelete, setInstructorIdToDelete] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const ComponentsRef = useRef();
 
   useEffect(() => {
     const fetchInstructors = async () => {
@@ -74,12 +77,42 @@ export default function InstructorManagement() {
 
     };
 
+    const onChange = (e) => {
+      setSearchTerm(e.target.value);
+    }
 
+    const filteredInstructors = instructors.filter(user =>
+      new Date(user.updatedAt).toLocaleDateString().includes(searchTerm.toLowerCase()) ||
+      user.InstructorID.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.InstructorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.InstructorLocation.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const handlePrint = useReactToPrint({
+      content: () => ComponentsRef.current,
+      documentTitle: 'Students Report',
+    });
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 p-9 '>
       {currentUser.isAdmin && instructors.length > 0 ? (
         <>
+          <div className='p-3 flex items-center justify-between'>
+            <input
+              type='search'
+              placeholder='Search...'
+              className='bg-transparent focus:outline-none w-24 sm:w-64'
+              value={searchTerm}
+              onChange={onChange}
+            />
+
+            <button onClick={handlePrint} className='bg-teal-200 text-black p-3 rounded-lg uppercase hover:opacity-80'> Download Report </button>
+
+          </div>
+
+          <div ref={ComponentsRef}>
+
           <Table hoverable className='shadow-md'>
             <Table.Head>
               <Table.HeadCell>Date created</Table.HeadCell>
@@ -92,7 +125,7 @@ export default function InstructorManagement() {
             </Table.Head>
             
             <Table.Body className='divide-y'>
-              {instructors.map((user) => (
+              {filteredInstructors.map((user) => (
                 <Table.Row key={user._id} className='bg-white '>
                   <Table.Cell>{new Date(user.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell className='font-medium text-gray-900'>{user.InstructorID}</Table.Cell>
@@ -114,7 +147,7 @@ export default function InstructorManagement() {
                 </Table.Row>
               ))}
             </Table.Body>
-          </Table>
+          </Table> </div>
 
           {
             showMore && (
@@ -155,3 +188,6 @@ export default function InstructorManagement() {
     </div>
   );
 }
+
+
+// onafterprint:()=>alert("Report successfully generated")

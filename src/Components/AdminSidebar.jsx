@@ -59,13 +59,13 @@ export default function AdminSidebar() {
 
 
           {currentUser.isAdmin && (
-            <Link to='/admin-dashboard?tab=analytics'>
+            <Link to='/admin-dashboard?tab=dashboard'>
             <Sidebar.Item
-              active={tab === 'analytics'}
+              active={tab === 'dashboard'}
               icon={TbDeviceDesktopAnalytics}
               as='div'
             >
-              Analytics
+              Dashboard
             </Sidebar.Item>
           </Link>
           )}
