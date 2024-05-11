@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import { FaCartArrowDown } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { AiOutlineStock } from "react-icons/ai";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import { MdOutlinePayment } from "react-icons/md";
+import { PiNotePencilLight } from "react-icons/pi";
+import { IoCalendarOutline } from "react-icons/io5";
+import { CiCreditCard1 } from "react-icons/ci";
+import { MdOutlinePlayLesson } from "react-icons/md";
+
 
 const UserSideBar = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -37,40 +44,56 @@ const UserSideBar = () => {
         {/* Logo and title */}
         {isExpanded && (
           <div className="flex-grow">
-            <span className="text-lg text-blue-800 font-semibold">Dashboard</span>
+            <span className="text-lg text-blue-800 font-semibold">
+              Dashboard
+            </span>
           </div>
         )}
       </div>
 
       <nav>
         <a
-          href="#"
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300"
+          // href=""
+          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3"
         >
-          <AiOutlineDashboard className="w-6 h-6 text-gray-500" />
-          {!isExpanded ? null : <span className="ml-3">View Payment</span>}
-        </a>
-
-        <a
-          href="/ptsEnroll"
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300"
-        >
-          <FaCartArrowDown className="w-6 h-6 text-gray-500" />
+          <AiOutlineUser  className="w-6 h-6 text-gray-500" />
           {!isExpanded ? null : (
-            <>
-              <span className="flex-1 ml-3 whitespace-nowrap">View Schedule Lesson</span>
-              
-            </>
+            <span className="ml-3" onClick={() => Navigate("/user/edit")}>
+              User Profile
+            </span>
           )}
         </a>
 
         <a
           href="#"
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300"
+          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3"
         >
-          <FaPerson className="w-6 h-6 text-gray-500" />
-          {!isExpanded ? null : <span className="ml-3">View Lessons</span>}
+          <PiNotePencilLight className="w-6 h-6 text-gray-500" />
+          {!isExpanded ? null : <span className="ml-3">Attempt Quiz</span>}
         </a>
+
+        <a
+          href="#"
+          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3"
+        >
+          <AiOutlineStock className="w-6 h-6 text-gray-500" />
+          {!isExpanded ? null : <span className="ml-3">Quiz Progress</span>}
+        </a>
+
+        <a href="/ptsEnroll" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
+          <IoCalendarOutline className="w-6 h-6 text-gray-500" />
+          {!isExpanded ? null : (
+            <>
+              <span className="flex-1 ml-3 whitespace-nowrap">View Training Lesson</span>
+            </>
+          )}
+        </a>
+
+        <a href="#"className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
+        <MdOutlinePlayLesson className="w-6 h-6 text-gray-500" />{!isExpanded ? null : <span className="ml-3">View Lessons</span>}</a>
+
+        <a href="#"className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
+        <CiCreditCard1  className="w-6 h-6 text-gray-500" />{!isExpanded ? null : <span className="ml-3">Payment</span>}</a>
 
         {/* <a
           href="#"
@@ -79,23 +102,14 @@ const UserSideBar = () => {
           <AiOutlineStock className="w-6 h-6 text-gray-500" />
           {!isExpanded ? null : <span className="ml-3">Testing</span>}
         </a> */}
-
-        <a
-          // href=""
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300"
-        >
-          <AiOutlineStock className="w-6 h-6 text-gray-500" />
-          {!isExpanded ? null : <span className="ml-3" onClick={()=> Navigate("/user/edit")}>User Profile</span>}
-        </a>
       </nav>
 
       <div className="mt-auto">
-        <a
-          href="#"
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-200"
-        >
-          <MdLogout className="w-6 h-6 text-red-500" />
-          {!isExpanded ? null : <span className="ml-3 text-red-500">Logout</span>}
+        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-200">
+        <MdLogout className="w-6 h-6 text-red-500" />
+          {!isExpanded ? null : (
+            <span className="ml-3 text-red-500">Logout</span>
+          )}
         </a>
       </div>
     </div>

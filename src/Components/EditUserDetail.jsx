@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import instance from '../api';
 import { useNavigate } from 'react-router-dom';
+import UserSideBar from './UserSideBar';
 
 function EditUserDetail() {
   const [user, setUser] = useState(null);
@@ -81,8 +82,10 @@ function EditUserDetail() {
   
 
   return (
-    <div className="edit-user-detail p-4 max-w-md mx-auto bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-semibold mb-4">Edit User Details</h1>
+    <div className='flex flex-row '>
+    <UserSideBar/>
+    <div className="edit-user-detail p-4 max-w-md mx-auto">
+      <h1 className="text-2xl font-semibold mb-4 text-center">Edit User Details</h1>
       {user && (
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           {({ isSubmitting }) => (
@@ -133,12 +136,12 @@ function EditUserDetail() {
                 <ErrorMessage name="gender" component="div" className="text-red-500" />
               </label>
   
-              <label className="block mb-2">
+              <label className="block mb-3">
                 Are you a student?
                 <Field type="checkbox" name="isStudent" className="ml-2" />
               </label>
   
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" disabled={isSubmitting}>
+              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 " disabled={isSubmitting}>
                 Save Details
               </button>
             </Form>
@@ -148,6 +151,7 @@ function EditUserDetail() {
       <button onClick={handleDeleteAccount} className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
         Delete My Account
       </button>
+    </div>
     </div>
   );
   

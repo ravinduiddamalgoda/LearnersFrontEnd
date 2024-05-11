@@ -31,24 +31,24 @@ export default function UserLogin() {
   return (
     <div>
       <div className='font-poppins'>
-        <div className='text-[30px] font-[500] mb-[30px]'>Sign in</div>
+        <div className='text-[30px] font-[500] mb-[30px] text-center'>Sign in</div>
         <div>
             <div className='flex flex-col justify-center items-center gap-[20px]'>
                 <input 
                     type='text' 
                     placeholder='Email' 
                     onChange={(e) => {setuname(e.target.value);}}
-                    className='w-[500px] py-[10px] rounded-full bg-transparent outline-none'/>
+                    className='w-[350px] py-[10px] rounded-full bg-transparent outline-none'/>
                 <input 
                     type='text' 
                     placeholder='Password' 
                     onChange={(e) => {setpswrd(e.target.value);}}
-                    className='w-[500px] py-[10px] rounded-full bg-transparent outline-none'/>
-                <input 
-                    type='text' 
+                    className='w-[350px] py-[10px] rounded-full bg-transparent outline-none'/>
+              <input 
+                    type='submit' 
                     value='Submit'
                     onClick={handleSubmit}
-                    className='w-[500px] py-[10px] cursor-pointer mt-[10px] text-white text-center bg-black rounded-full bg-transparent outline-none' />
+                    class='w-500 py-3 px-8 mt-4 text-white text-center bg-blue-500 rounded-full outline-none cursor-pointer hover:bg-blue-700' />
             </div>
         </div>
       </div>
