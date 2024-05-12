@@ -108,6 +108,18 @@ export default function AdminSidebar() {
             </Sidebar.Item>
           </Link>
           )}
+
+          {currentUser.isAdmin && (
+            <Link to='/vehicles/home'>
+            <Sidebar.Item
+              active={tab === 'add-licensepkg'}
+              icon={MdFormatListBulletedAdd }
+              as='div'
+            >
+              Vhicles
+            </Sidebar.Item>
+          </Link>
+          )}
           
           
           <Sidebar.Item
