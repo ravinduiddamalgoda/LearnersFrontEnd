@@ -25,6 +25,7 @@ export default function Header() {
               <div></div>
             ):(
               <div className='flex items-center gap-[84px]'>
+                <div className='font-[4000] text-[22px]'><Link to='/sign-in'>Admin Login</Link></div>
                 <div className='font-[4000] text-[22px]'><Link to='/user/sign-up'>Register</Link></div>
                 <div className='text-white bg-[#002B93] rounded-full font-[400] py-[5px] px-[30px] text-[22px]'><Link to='/user/sign-in'>Login</Link></div>
               </div>
