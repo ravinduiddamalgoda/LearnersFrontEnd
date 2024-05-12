@@ -74,7 +74,7 @@ export default function App() {
             <Route path='/reviews' element={<Reviews />} />
             <Route path= '/trainingSesssion' element ={<PhysicalTrainingHome/>}/>  
             <Route path="/updateTraining" element={<UpdatePTS/>}/>
-            <Route path='/ptsEnroll' element={<StudentEnrollments />} />
+           
             <Route path ='/viewptsStudent' element = {<ViewStudentEnrollment/>}/>
               
             
@@ -82,8 +82,8 @@ export default function App() {
             {/* <Route path='/viewQuizes' element={<ViewQuiz/>}/> */}
             <Route path='/updateQuiz/:quizId' element={<UpdateQuiz/>}/>
             <Route path='/addQuizPackage' element={<AddQuizPackages/>}/>
-            <Route path='/selectQuizPackage' element={<SelectQuizPackage/>}/>           
-            <Route path='/viewQuizMarks' element={<ViewQuizMarks/>}/>
+          
+          
             <Route path='/vehicles/home' element = {<VehicleHome/>} />
             <Route path='/vehicles/details/:id' element={<ShowVehicle/>} />
             <Route path='/vehicles/create' element={<CreateVehicle/>} />
@@ -94,6 +94,9 @@ export default function App() {
             
             <Route element={<ProtectedStudentRoutes />} >
               <Route path='/user/payment' element={<Payment/>}/>
+              <Route path='/ptsEnroll' element={<StudentEnrollments />} />
+              <Route path='/viewQuizMarks' element={<ViewQuizMarks/>}/>
+              <Route path='/selectQuizPackage' element={<SelectQuizPackage/>}/>           
               <Route path='/user/interface' element={<UserprofileInterface/>}/>
               <Route path='/user/edit' element={<EditUserDetail/>}/>
               <Route path='/add-review' element={<AddReview />} />
