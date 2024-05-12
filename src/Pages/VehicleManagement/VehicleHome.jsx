@@ -29,9 +29,9 @@ const VehicleHome = () => {
       <div className="flex justify-between items-center">
         <h1 className='text-7xl my-6 font-bold text-black-700 flex justify-center'>Vehicles</h1>
         <Link to="/vehicles/create">
-        <button className="flex items-center bg-blue-950 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded" >
+        <button className="flex items-center bg-blue-950 hover:bg-blue-900  text-white font-bold py-2 px-4 rounded" >
             <MdOutlineAddBox className="text-sky-800 text-4xl" />
-            <span className="ml-2">Add Vehicle</span>
+            <span className="ml-2 text-black hover:text-white">Add Vehicle</span>
           </button>
         </Link>
       </div>
