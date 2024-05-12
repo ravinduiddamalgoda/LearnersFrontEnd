@@ -22,11 +22,19 @@ const UserSideBar = () => {
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
   };
+  
 
   // Define the width for expanded and collapsed sidebar
   const expandedWidth = "w-15p";
   const collapsedWidth = "w-5p";
 
+
+  const handleLogout = () => {
+    // Clearing local storage
+    localStorage.clear();
+    // Reloading the page to reflect changes
+    window.location.reload();
+};
   return (
     <div
       className={`${
@@ -65,7 +73,7 @@ const UserSideBar = () => {
         </a>
 
         <a
-          href="#"
+          href="/selectQuizPackage"
           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3"
         >
           <PiNotePencilLight className="w-6 h-6 text-gray-500" />
@@ -73,7 +81,7 @@ const UserSideBar = () => {
         </a>
 
         <a
-          href="#"
+          href="/viewQuizMarks"
           className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3"
         >
           <AiOutlineStock className="w-6 h-6 text-gray-500" />
@@ -92,7 +100,7 @@ const UserSideBar = () => {
         <a href="#"className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
         <MdOutlinePlayLesson className="w-6 h-6 text-gray-500" />{!isExpanded ? null : <span className="ml-3">View Lessons</span>}</a>
 
-        <a href="#"className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
+        <a href="/user/payment"className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-300 mb-3">
         <CiCreditCard1  className="w-6 h-6 text-gray-500" />{!isExpanded ? null : <span className="ml-3">Payment</span>}</a>
 
         {/* <a
@@ -105,12 +113,10 @@ const UserSideBar = () => {
       </nav>
 
       <div className="mt-auto">
-        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-200">
-        <MdLogout className="w-6 h-6 text-red-500" />
-          {!isExpanded ? null : (
-            <span className="ml-3 text-red-500">Logout</span>
-          )}
-        </a>
+      <a href="#" onClick={handleLogout} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-red-200">
+                <MdLogout className="w-6 h-6 text-red-500" />
+                {isExpanded ? <span className="ml-3 text-red-500">Logout</span> : null}
+            </a>
       </div>
     </div>
   );

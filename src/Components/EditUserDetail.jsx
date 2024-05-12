@@ -8,11 +8,14 @@ import UserSideBar from './UserSideBar';
 function EditUserDetail() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
+  const userData = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
     // Fetch user data from the server using the user ID stored in local storage
     // const userId = localStorage.getItem('userId');
         // "userID": "ST250193",
-    const userId = "ST694721";
+    const userId = userData.userID;
 
     fetchUserData(userId);
   }, []);
