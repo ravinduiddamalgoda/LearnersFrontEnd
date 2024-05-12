@@ -172,7 +172,7 @@ const EditVehicle = () => {
           />
         </div>
         <p className="text-red-500">*All fields are required</p>
-        <button className='p-2 bg-blue-950 hover:bg-blue-900 text-white m-10' onClick={handleEditVehicle}>
+        <button className='p-2 bg-blue-950 text-black hover:bg-blue-900 hover:text-white m-10' onClick={handleEditVehicle}>
           Save
         </button>
       </div>

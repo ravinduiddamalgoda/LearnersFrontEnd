@@ -57,7 +57,8 @@ export default function AdminSidebar() {
             </Sidebar.Item>
           </Link>
 
-
+          {/* <Link to={currentUser.isInstructor  ? '/trainingSesssion' : '/trainingSesssion'}>Physical Training Session</Link> */}
+          {/* <Link to={currentUser.isAdmin  ? '/revenue' : '/revenue'}>Revenue Page</Link> */}
           {currentUser.isAdmin && (
             <Link to='/admin-dashboard?tab=dashboard'>
             <Sidebar.Item
@@ -116,7 +117,42 @@ export default function AdminSidebar() {
               icon={MdFormatListBulletedAdd }
               as='div'
             >
-              Vhicles
+              Vehicles
+            </Sidebar.Item>
+          </Link>
+          )}
+
+          {currentUser.isAdmin && (
+            <Link to='/revenue'>
+            <Sidebar.Item
+              active={tab === 'add-licensepkg'}
+              icon={MdFormatListBulletedAdd }
+              as='div'
+            >
+              Revenue
+            </Sidebar.Item>
+          </Link>
+          )}
+          {currentUser.isInstructor && (
+            <Link to='/quizmain'>
+            <Sidebar.Item
+              active={tab === 'add-licensepkg'}
+              icon={MdFormatListBulletedAdd }
+              as='div'
+            >
+              Quiz Page
+            </Sidebar.Item>
+          </Link>
+          )}
+
+          {currentUser.isInstructor && (
+            <Link to='/trainingSesssion'>
+            <Sidebar.Item
+              active={tab === 'add-licensepkg'}
+              icon={MdAppRegistration}
+              as='div'
+            >
+             Physical Training Session
             </Sidebar.Item>
           </Link>
           )}

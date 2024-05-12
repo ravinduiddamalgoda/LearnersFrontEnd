@@ -119,7 +119,7 @@ const InstructorSalary = () => {
       <TrainingSide />
       <div className="flex-grow p-8">
         <h2 className="text-center text-2xl font-semibold my-6">Instructor Salary Details</h2>
-        <div className="max-w-md mx-auto bg-white shadow-lg p-4 rounded-lg">
+        {/* <div className="max-w-md mx-auto bg-white shadow-lg p-4 rounded-lg">
           <div className="mb-6">
             <label htmlFor="startDate" className="block text-gray-700 font-semibold mb-2">Start Date:</label>
             <input type="date" id="startDate" value={startDate} onChange={handleStartDateChange} className="form-input w-full border-gray-300 rounded-md shadow-sm"/>
@@ -128,7 +128,7 @@ const InstructorSalary = () => {
             <label htmlFor="endDate" className="block text-gray-700 font-semibold mb-2">End Date:</label>
             <input type="date" id="endDate" value={endDate} onChange={handleEndDateChange} className="form-input w-full border-gray-300 rounded-md shadow-sm"/>
           </div>
-        </div>
+        </div> */}
         <div className="bg-white shadow-lg p-4 rounded-lg mt-6 overflow-auto">
           {data.length > 0 ? data.map((item, index) => (
             <div key={index} className="my-2 p-2 border-b last:border-b-0">

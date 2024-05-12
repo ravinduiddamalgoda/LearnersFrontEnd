@@ -203,10 +203,10 @@ const RevenuePage = () => {
       
       <div className='my-4 flex justify-between'>
         <div>
-        <button onClick={generatePDF} className='bg-blue-950 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded mr-4' >
+        <button onClick={generatePDF} className='bg-blue-950 text-black hover:bg-blue-900 hover:text-white font-bold py-3 px-4 rounded mr-4' >
             Download Revenue Report (PDF)
           </button>
-          <button onClick={sendEmail} className='bg-blue-950 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded '>
+          <button onClick={sendEmail} className='bg-blue-950 hover:bg-blue-900 text-black hover:text-white font-bold py-3 px-4 rounded '>
             Send Mail
           </button>
           <ToastContainer />

@@ -7,6 +7,7 @@ function UserprofileInterface() {
 
     const Navigate = useNavigate();
 
+    const userData = JSON.parse(localStorage.getItem('user'));
 
   return (
 
@@ -14,7 +15,7 @@ function UserprofileInterface() {
         <UserSideBar/>
         <div>
         <div>
-            <h1 className="my-8 mx-8">Helo User</h1>
+            <h1 className="my-8 mx-8 text-xl font-bold">Helo {userData.firstName}</h1>
             <hr/>
         </div>
         {/* <div>

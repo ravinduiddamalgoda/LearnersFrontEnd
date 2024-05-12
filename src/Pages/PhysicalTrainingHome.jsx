@@ -103,7 +103,7 @@ const PhysicalTrainingHome = () => {
             Welcome to Training Sessions
           </h1>
           <div className="flex flex-row">
-            <div className="mx-10 w-72">
+            <div className="mx-20 w-72 ">
               <h1 className="text-xl font-bold m-4">Add a Training Session</h1>
               <form
                 onSubmit={formik.handleSubmit}
@@ -244,8 +244,12 @@ const PhysicalTrainingHome = () => {
               </form>
             </div>
             <div className="flex flex-row mx-auto ">
-              <ViewTrainings update={update} />
+                <div className="mx-10">
+                <ViewTrainings update={update} />
+                </div>
+                <div className="mx-10">
               <AttendancePredictor/>
+              </div>
             </div>
           </div>
         </div>
