@@ -44,6 +44,7 @@ import Chatbot from './Pages/Chatbot'
 
 //student wrapper
 import ProtectedStudentRoutes from './routes/ProtectedStudentRoutes';
+import InstructorSalary from './Pages/InstructorSalary';
 
 export default function App() {
   
@@ -89,7 +90,8 @@ export default function App() {
             <Route path='/vehicles/edit/:id' element={<EditVehicle/>} />
             <Route path='/vehicles/delete/:id' element={<DeleteVehicle/>} />
             <Route path='/revenue' element={<HomeRevenue/>} />
-          
+            <Route path='/instructor/salary' element={<InstructorSalary/>}/>
+            
             <Route element={<ProtectedStudentRoutes />} >
               <Route path='/user/payment' element={<Payment/>}/>
               <Route path='/user/interface' element={<UserprofileInterface/>}/>

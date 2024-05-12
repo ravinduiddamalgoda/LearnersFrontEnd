@@ -99,7 +99,7 @@ const TrainingSide = () => {
         </a>
 
         <a
-          href=""
+          href="/instructor/salary"
           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-blue-200  m-4"
         >
           <svg
@@ -116,7 +116,7 @@ const TrainingSide = () => {
           {/* <span class="ml-3">Inventory</span> */}
         </a>
       </nav>
-      <div class="mt-auto">
+      {/* <div class="mt-auto">
         <a
           href="#"
           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-blue-200  m-4"
@@ -129,7 +129,7 @@ const TrainingSide = () => {
           > <MdLogout size="24" color="red"/> </svg>
           {!isExpanded ? null : <span class="ml-3">Logout</span>}
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -47,7 +47,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log(response)
+    // console.log(response)
     return response;  
   },
   // async (error) => {

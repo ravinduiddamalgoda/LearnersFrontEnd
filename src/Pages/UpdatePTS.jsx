@@ -3,26 +3,38 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import TrainingSide from "../Components/TrainingSide";
 import instance from "../api";
+import { useSelector } from "react-redux";
 
 const UpdatePTS = () => {
   const [trainings, setTrainings] = useState([]);
   const [filteredTrainings, setFilteredTrainings] = useState([]);
   const [selectedPTSID, setSelectedPTSID] = useState("");
   const [searchDate, setSearchDate] = useState("");
-
+  const [insID , setInsID] = useState("");
+  const { currentUser } = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log("Current User:", currentUser); // This will show you what's available in currentUser
+    if (currentUser && currentUser.InstructorID) {
+      setInsID(currentUser.InstructorID);
+      console.log(insID)
+    }
+  }, []);  //
   useEffect(() => {
     const fetchTrainings = async () => {
       try {
-        const response = await instance.get(`/pts`);
+        const response = await instance.get(`/pts/instructor/${insID}`);
         setTrainings(response.data);
         setFilteredTrainings(response.data);
       } catch (error) {
         console.error("Error fetching trainings:", error);
       }
     };
-    fetchTrainings();
-  }, []);
-
+    
+    if (insID) {
+      fetchTrainings();
+    }
+  }, [insID]); // Only refetch when InsID changes
+  
   useEffect(() => {
     if (searchDate) {
       const filtered = trainings.filter(training =>
@@ -51,21 +63,21 @@ const UpdatePTS = () => {
       maxCount: Yup.number().required('Max participants are required').min(1).max(20),
       status: Yup.string().required('Status is required'),
     }),
-    onSubmit: values => {
-      console.log("Updated Values:", values);
+    onSubmit: async (values) => {
       try {
-        const data = instance.put(`/pts/${selectedPTSID}`, values).then(response => {
-          alert("Training session updated successfully");
-          fetchTrainings();
-          setSelectedPTSID("");
-          formik.resetForm();
-        });
-        if (!data) {
-          throw new Error("Failed to update training session");
+        if (values.status === 'completed') {
+          await instance.post('salary/add', { InstructorID: insID });
+          alert('Salary added successfully');
         }
+        
+        await instance.put(`/pts/${selectedPTSID}`, values);
+        alert("Training session updated successfully");
+        // fetchTrainings(); // Refetch trainings to update the UI
+        setSelectedPTSID("");
+        formik.resetForm();
       } catch (error) {
-        console.error("Error updating training session:", error);
-        alert("Error updating training session");
+        console.error("Error during form submission:", error);
+        alert("Error during operation");
       }
     },
   });
